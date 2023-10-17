@@ -22,6 +22,9 @@ public class MainUIHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method that handles the menu visibility
+    /// </summary>
     void HandleMenuVisibility()
     {
         isInGameMenuVisible = !isInGameMenuVisible;
