@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81926cd0b72348c4f9405b921d4a9c4f, type: 3}
-  m_Name: BuildingData
+  m_Name: BuildTest3
   m_EditorClassIdentifier: 
   prefabName: 
   tiles:
@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ffbf383129e9af4290681a534ec8006, type: 2}
   - {fileID: 11400000, guid: 649f73c656f32b04db33613a90ef75fb, type: 2}
   - {fileID: 11400000, guid: c67e233438183bd46a2fdc87ebd5c127, type: 2}
-  doorLocation: {x: 0, y: 0, z: 0}
+  doorLocation: {x: -5, y: 15, z: 0}
   ground: {fileID: 2479285500599628443, guid: 6c0feec64e219c440a9d37344aeb69d9, type: 3}
   obstacles: {fileID: 989325842913516005, guid: cc1008784def9f441b4b33f567390717, type: 3}
   exitPoint: {fileID: 7700968375996808177, guid: 415a30e7b33a0bf48865d65727936fe5, type: 3}

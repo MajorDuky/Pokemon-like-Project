@@ -49,7 +49,14 @@ public class BuildingManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            EnvironmentManager.Instance.SwitchTilemaps(building.ground, building.obstacles);
+            EnvironmentManager.Instance.SwitchTilemaps(building.ground, building.obstacles, building.exitPoint);
+            other.gameObject.transform.position = building.spawnPoint.position;
+            PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.TPMovePoint();
+                playerMovement.playerPosBeforeEnteringBuilding = new Vector3(0.5f, -0.5f, 0f) + building.doorLocation;
+            }
         }   
     }
 }

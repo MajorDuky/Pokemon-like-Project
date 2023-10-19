@@ -11,5 +11,7 @@ public class BuildingScriptableObject : ScriptableObject
     public Vector3 doorLocation;
     public GameObject ground;
     public GameObject obstacles;
+    public GameObject exitPoint;
+    public Transform spawnPoint;
     public List<PNJScriptableObject> pnjs;
 }
