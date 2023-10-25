@@ -13,6 +13,7 @@ public class BuildingManager : MonoBehaviour
     {
         boxCollider = gameObject.AddComponent<BoxCollider2D>();
         boxCollider.isTrigger = true;
+        boxCollider.size = new Vector2(0.9f, 1.1f);
         transform.position = building.doorLocation + new Vector3(0.5f, 0.5f, 0f);
         PaintBuiding();
     }
