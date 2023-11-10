@@ -13,7 +13,6 @@ public class BuildingManager : MonoBehaviour
     {
         boxCollider = gameObject.AddComponent<BoxCollider2D>();
         boxCollider.isTrigger = true;
-        boxCollider.size = new Vector2(0.9f, 1.1f);
         transform.position = building.doorLocation + new Vector3(0.5f, 0.5f, 0f);
         PaintBuiding();
     }
@@ -40,7 +39,10 @@ public class BuildingManager : MonoBehaviour
                 {
                     EnvironmentManager.Instance.defaultInteractables.SetTile(new Vector3Int(x, y, 0), building.tiles[tileNumber]);
                 }
-                EnvironmentManager.Instance.defaultObstacles.SetTile(new Vector3Int(x, y, 0), building.tiles[tileNumber]);
+                else
+                {
+                    EnvironmentManager.Instance.defaultObstacles.SetTile(new Vector3Int(x, y, 0), building.tiles[tileNumber]);
+                }
                 tileNumber++;
             }
         }
