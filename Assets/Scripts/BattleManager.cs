@@ -19,6 +19,10 @@ public class BattleManager : MonoBehaviour
         roundOrder = new List<MonsterScriptableObject>();
     }
 
+    private void Start()
+    {
+        
+    }
     private void OnDisable()
     {
         roundOrder.Clear();
@@ -35,6 +39,7 @@ public class BattleManager : MonoBehaviour
         allyMonster = ally;
         enemyMonster = enemy;
         DetermineRoundOrder();
+        ui.InitializeUIBattle(ally, enemy);
     }
 
     private void DetermineRoundOrder()

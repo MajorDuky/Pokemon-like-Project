@@ -4,8 +4,9 @@ using UnityEngine;
 public class CapacityScriptableObject : ScriptableObject
 {
     public string capacityName;
-    public float strenght;
+    public float strength;
     public float accuracy;
     public TypeScriptableObject type;
     public string description;
+    public float spValue;
 }
