@@ -1039,6 +1039,7 @@ MonoBehaviour:
   capacitySPValue: {fileID: 8719955428839090828}
   capacityTypeValue: {fileID: 5552532778953405166}
   capacityDetails: {fileID: 477814274857076983}
+  useCapacityButton: {fileID: 2705926429570940677}
   basicDetails: {fileID: 7879360414868361648}
   advancedDetails: {fileID: 637706412072277731}
 --- !u!1 &6491692302954941878

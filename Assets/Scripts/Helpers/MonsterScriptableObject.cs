@@ -22,6 +22,7 @@ public class MonsterScriptableObject : ScriptableObject
     public Sprite frontSprite;
     public Sprite backSprite;
     public float speed;
+    public bool isAlive;
 
     public void GainXp(float amountToAdd)
     {
@@ -55,5 +56,15 @@ public class MonsterScriptableObject : ScriptableObject
     public void Heal(float amount)
     {
         health = health + amount >= maxHealth ? maxHealth : health += amount;
+    }
+
+    public void ReduceSP(float amount)
+    {
+        spiritPower -= amount;
+    }
+
+    public void RefillSP()
+    {
+        spiritPower = maxSpiritPower;
     }
 }

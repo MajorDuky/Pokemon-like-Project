@@ -8,4 +8,5 @@ public class PNJScriptableObject : ScriptableObject
     public Sprite sprite;
     public Vector2 spawnLocation;
     public List<string> dialogue;
+    public List<MonsterScriptableObject> pnjTeam;
 }

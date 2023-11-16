@@ -8,6 +8,19 @@ public class BattleManager : MonoBehaviour
     private MonsterScriptableObject enemyMonster;
     private bool isBattleOver;
     private int roundCounter;
+    public bool hasAllyPlayed;
+    public bool hasEnemyPlayed;
+    public enum BattleChoice
+    {
+        Attack = 0,
+        Capacity = 1,
+        Switch = 2,
+        Run = 3
+    }
+    public BattleChoice allyChoice;
+    public BattleChoice enemyChoice;
+    public CapacityScriptableObject allyCapacity;
+    public CapacityScriptableObject enemyCapacity;
     private List<MonsterScriptableObject> roundOrder;
     private bool isSuccess;
     [SerializeField] private BattleUIHandler ui;
@@ -17,6 +30,8 @@ public class BattleManager : MonoBehaviour
         isBattleOver = false;
         roundCounter = 0;
         roundOrder = new List<MonsterScriptableObject>();
+        hasAllyPlayed = false;
+        hasEnemyPlayed = false;
     }
 
     private void Start()
@@ -31,7 +46,10 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (hasAllyPlayed && hasEnemyPlayed)
+        {
+
+        }
     }
 
     public void InitializeBattle(MonsterScriptableObject ally, MonsterScriptableObject enemy)
