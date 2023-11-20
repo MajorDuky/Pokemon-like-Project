@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 public class BattleUIHandler : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class BattleUIHandler : MonoBehaviour
     [SerializeField] private TMP_Text allySPText;
     [SerializeField] private Slider enemySPSlider;
     [SerializeField] private TMP_Text enemySPText;
+    [SerializeField] private TMP_Text allyLevelText;
+    [SerializeField] private TMP_Text enemyLevelText;
     [SerializeField] private Slider allyXPSlider;
     [SerializeField] private Image allySprite;
     [SerializeField] private Image enemySprite;
@@ -109,6 +112,16 @@ public class BattleUIHandler : MonoBehaviour
     public void UpdateEnemySprite(Sprite sprite)
     {
         enemySprite.sprite = sprite;
+    }
+
+    public void UpdateAllyLevel(int level)
+    {
+        allyLevelText.text = level.ToString();
+    }
+
+    public void UpdateEnemyLevel(int level)
+    {
+        enemyLevelText.text = level.ToString();
     }
 
     public void UpdateBattleText(string text)
@@ -275,6 +288,7 @@ public class BattleUIHandler : MonoBehaviour
         UpdateAllyXP(ally.currentXp, ally.xpToLevelUp);
         UpdateAllyName(ally.monsterName);
         UpdateAllySprite(ally.backSprite);
+        UpdateAllyLevel(ally.level);
         FillCapacityArea(ally);
 
         // Enemy initialization
@@ -282,6 +296,7 @@ public class BattleUIHandler : MonoBehaviour
         UpdateEnemySP(enemy.spiritPower, enemy.maxSpiritPower);
         UpdateEnemySprite(enemy.frontSprite);
         UpdateEnemyName(enemy.monsterName);
+        UpdateEnemyLevel(enemy.level);
     }
 
     /// <summary>

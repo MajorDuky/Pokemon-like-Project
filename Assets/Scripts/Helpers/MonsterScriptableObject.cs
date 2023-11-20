@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterScriptableObject : ScriptableObject
 {
     public string monsterName;
-    public float level;
+    public int level;
     public float currentXp;
     public float xpToLevelUp;
     public float levelUpXpMultiplier;
@@ -13,6 +13,7 @@ public class MonsterScriptableObject : ScriptableObject
     public List<TypeScriptableObject> typesList;
     public List<TypeScriptableObject> strengthsList;
     public List<TypeScriptableObject> weaknessesList;
+    public List<TypeScriptableObject> ignoreDmgList;
     public float health;
     public float maxHealth;
     public float levelUpHealthMultiplier;
@@ -23,6 +24,7 @@ public class MonsterScriptableObject : ScriptableObject
     public Sprite backSprite;
     public float speed;
     public bool isAlive;
+    public bool isAlly;
 
     public void GainXp(float amountToAdd)
     {

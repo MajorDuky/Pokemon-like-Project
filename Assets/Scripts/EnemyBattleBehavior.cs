@@ -8,6 +8,7 @@ public class EnemyBattleBehavior : MonoBehaviour
     public MonsterScriptableObject actualFightingMonster;
     [SerializeField] private BattleManager bm;
     private bool hasSufficientSP;
+    private List<CapacityScriptableObject> usableCapacities = new List<CapacityScriptableObject>();
     private bool isLowHP;
     private bool isAlone;
     private bool isAllTeamInDanger;
@@ -18,7 +19,7 @@ public class EnemyBattleBehavior : MonoBehaviour
         
     }
 
-    public void InitializeBattle(List<MonsterScriptableObject> monsters)
+    public MonsterScriptableObject InitializeBattle(List<MonsterScriptableObject> monsters)
     {
         foreach (var monster in monsters)
         {
@@ -29,36 +30,64 @@ public class EnemyBattleBehavior : MonoBehaviour
         {
             isAlone = true;
         }
+
+        return actualFightingMonster = monsters[0];
     }
 
     public void MakeChoice()
     {
+        DetermineSufficientSP(actualFightingMonster.capacitiesList);
+        DetermineLowHPState();
+        if (!isAlone)
+        {
+            DetermineIsAllTeamInDanger();
+        }
+        
         if (hasSufficientSP && !isLowHP)
         {
-            // lancer capacité
+            LaunchCapacitySequence();
         }
         else if (isLowHP && !isAlone)
         {
-            // switch
+            if (isAllTeamInDanger && hasSufficientSP)
+            {
+                LaunchCapacitySequence();
+            }
+            else if (isAllTeamInDanger && !hasSufficientSP)
+            {
+                bm.enemyChoice = BattleManager.BattleChoice.Attack;
+                bm.hasEnemyPlayed = true;
+            }
+            else
+            {
+                bm.enemyChoice = BattleManager.BattleChoice.Switch;
+                // switch
+                bm.hasEnemyPlayed = true;
+            }
+
         }
         else if (hasSufficientSP)
         {
-            // lancer capacité
+            LaunchCapacitySequence();
         }
         else
         {
-            // lancer attaque basique
+            bm.enemyChoice = BattleManager.BattleChoice.Attack;
+            bm.hasEnemyPlayed = true;
         }
     }
 
     public void DetermineSufficientSP(List<CapacityScriptableObject> availableCapacities)
     {
-        int usableCapacities = 0;
+        usableCapacities.Clear();
         foreach (var capacity in availableCapacities)
         {
-            usableCapacities = capacity.spValue <= actualFightingMonster.spiritPower ? usableCapacities++ : usableCapacities;
+            if (capacity.spValue <= actualFightingMonster.spiritPower)
+            {
+                usableCapacities.Add(capacity);
+            }
         }
-        hasSufficientSP = usableCapacities > 0;
+        hasSufficientSP = usableCapacities.Count > 0;
     }
 
     public void DetermineLowHPState()
@@ -76,5 +105,13 @@ public class EnemyBattleBehavior : MonoBehaviour
             inDangerCounter = actualFightingMonster.health <= lowHPValue ? inDangerCounter++ : inDangerCounter;
         }
         isAllTeamInDanger = inDangerCounter == enemyTeam.Count;
+    }
+
+    private void LaunchCapacitySequence()
+    {
+        CapacityScriptableObject capacityToLaunch = usableCapacities[Random.Range(0, usableCapacities.Count)];
+        bm.enemyChoice = BattleManager.BattleChoice.Capacity;
+        bm.enemyCapacity = capacityToLaunch;
+        bm.hasEnemyPlayed = true;
     }
 }
