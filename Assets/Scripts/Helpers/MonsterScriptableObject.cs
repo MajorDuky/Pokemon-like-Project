@@ -50,7 +50,7 @@ public class MonsterScriptableObject : ScriptableObject
         health -= amount;
         if (health <= 0)
         {
-            Debug.Log("Coucou");
+            Debug.Log("Negetive Life Coucou");
             // BattleManager->gameover
         }
     }

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private MCAnimatorHandler animator;
     [SerializeField] private LayerMask exitLayer;
     public Vector3 playerPosBeforeEnteringBuilding;
+    public bool isInBattle;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandlePlayerMovement();
+        if(!isInBattle)
+        {
+            HandlePlayerMovement();
+        }
     }
 
     /// <summary>

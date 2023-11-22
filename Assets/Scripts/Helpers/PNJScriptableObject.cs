@@ -9,4 +9,6 @@ public class PNJScriptableObject : ScriptableObject
     public Vector2 spawnLocation;
     public List<string> dialogue;
     public List<MonsterScriptableObject> pnjTeam;
+    public Vector2 lookOrientation;
+    public float visionRange;
 }

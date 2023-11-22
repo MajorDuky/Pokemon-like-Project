@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: PNJData
   m_EditorClassIdentifier: 
   sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  spawnLocation: {x: 0, y: 0}
+  spawnLocation: {x: 5, y: 5}
   dialogue:
   - Bonjour
   - Je suis une table
+  pnjTeam:
+  - {fileID: 11400000, guid: f546a4ff404c7c94691e5e6f5f0cf820, type: 2}
+  lookOrientation: {x: 0, y: 1}
+  visionRange: 8

@@ -10,6 +10,8 @@ public class BattleManager : MonoBehaviour
     private int roundCounter;
     public bool hasAllyPlayed;
     public bool hasEnemyPlayed;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerTeamHandler playerTeam;
     public enum BattleChoice
     {
         Attack = 0,
@@ -34,12 +36,14 @@ public class BattleManager : MonoBehaviour
         roundOrder = new List<MonsterScriptableObject>();
         hasAllyPlayed = false;
         hasEnemyPlayed = false;
+        playerMovement.isInBattle = true;
     }
 
     private void Start()
     {
         
     }
+
     private void OnDisable()
     {
         roundOrder.Clear();
@@ -52,6 +56,10 @@ public class BattleManager : MonoBehaviour
         {
             HandleBattle();
         }
+        else if (hasAllyPlayed && !hasEnemyPlayed)
+        {
+            enemyBehavior.MakeChoice();
+        }
     }
 
     /// <summary>
@@ -59,9 +67,9 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     /// <param name="ally">The ally's monster</param>
     /// <param name="enemyTeam">The enemy's monster team</param>
-    public void InitializeBattle(MonsterScriptableObject ally, List<MonsterScriptableObject> enemyTeam)
+    public void InitializeBattle(List<MonsterScriptableObject> enemyTeam)
     {
-        allyMonster = ally;
+        allyMonster = playerTeam.playerTeam[0];
         enemyMonster = enemyBehavior.InitializeBattle(enemyTeam);
         DetermineRoundOrder();
         ui.InitializeUIBattle(allyMonster, enemyMonster);
@@ -118,13 +126,16 @@ public class BattleManager : MonoBehaviour
                         {
                             ui.UpdateAllyHP(allyMonster.health, allyMonster.maxHealth);
                         }
-                        if (allyChoice == BattleChoice.Capacity)
+                        if (enemyChoice == BattleChoice.Capacity)
                         {
                             ui.UpdateEnemySP(enemyMonster.spiritPower, enemyMonster.maxSpiritPower);
                         }
                     }
                 }
             }
+            // Afterglow
+            hasAllyPlayed = false;
+            hasEnemyPlayed = false;
             // test valeurs HP + conditions sur état de la team : game over si tous les alliés = KO / win si tous les ennemis = KO
             roundCounter++;
         }
@@ -149,12 +160,15 @@ public class BattleManager : MonoBehaviour
         {
             case BattleChoice.Attack:
                 capacityToLaunch = defaultCapacity;
+                Debug.Log(caster + " " + capacityToLaunch);
                 break;
             case BattleChoice.Capacity:
                 capacityToLaunch = caster.isAlly ? allyCapacity : enemyCapacity;
+                Debug.Log(caster + " " + capacityToLaunch);
                 break;
             default:
                 capacityToLaunch = defaultCapacity;
+                Debug.Log(caster + " " + capacityToLaunch);
                 break;
         }
         foreach (var type in receiver.weaknessesList)

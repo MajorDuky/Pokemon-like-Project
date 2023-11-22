@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19ed508b184c82e4092e3f9fb7b35424, type: 3}
-  m_Name: Capacity_0
+  m_Name: CapacityData
   m_EditorClassIdentifier: 
-  capacityName: Default Attack
-  strength: 20
-  accuracy: 100
-  type: {fileID: 11400000, guid: 8fee0e81d035a3d4cbc52abbd2dd1652, type: 2}
-  description: A default attack
-  spValue: 0
+  capacityName: Zbeul
+  strength: 100
+  accuracy: 60
+  type: {fileID: 11400000, guid: e8edf01bdd4b7bb44a9500a79968927b, type: 2}
+  description: ZBRRREEE
+  spValue: 60
