@@ -72,34 +72,34 @@ public class BattleUIHandler : MonoBehaviour
     public void UpdateAllyHP(float newAmount, float maxHP)
     {
         allyHPText.text = $"{newAmount.ToString()} / {maxHP.ToString()}";
-        allyHPSlider.value = maxHP / newAmount;
+        allyHPSlider.value = newAmount / maxHP;
     }
 
     // Modifies the enemy HP value text in the battle UI
     public void UpdateEnemyHP(float newAmount, float maxHP)
     {
         enemyHPText.text = $"{newAmount.ToString()} / {maxHP.ToString()}";
-        enemyHPSlider.value = maxHP / newAmount;
+        enemyHPSlider.value = newAmount / maxHP;
     }
 
     // Modifies the ally SP value text in the battle UI
     public void UpdateAllySP(float newAmount, float maxSP)
     {
         allySPText.text = $"{newAmount.ToString()} / {maxSP.ToString()}";
-        allySPSlider.value = maxSP / newAmount;
+        allySPSlider.value = newAmount / maxSP;
     }
 
     // Modifies the enemy SP value text in the battle UI
     public void UpdateEnemySP(float newAmount, float maxSP)
     {
         enemySPText.text = $"{newAmount.ToString()} / {maxSP.ToString()}";
-        enemySPSlider.value = maxSP / newAmount;
+        enemySPSlider.value = newAmount / maxSP;
     }
 
     // Modifies the ally XP value text in the battle UI
     public void UpdateAllyXP(float newAmount, float maxXP)
     {
-        allyXPSlider.value = maxXP / newAmount;
+        allyXPSlider.value = newAmount / maxXP;
     }
 
     // Modifies the ally sprite in the battle UI
@@ -114,16 +114,19 @@ public class BattleUIHandler : MonoBehaviour
         enemySprite.sprite = sprite;
     }
 
+    // Modifies the ally level in the battle UI
     public void UpdateAllyLevel(int level)
     {
         allyLevelText.text = level.ToString();
     }
 
+    // Modifies the enemy level in the battle UI
     public void UpdateEnemyLevel(int level)
     {
         enemyLevelText.text = level.ToString();
     }
 
+    // Modifies the battle text log in the battle UI
     public void UpdateBattleText(string text)
     {
         battleText.text = text;
@@ -311,5 +314,11 @@ public class BattleUIHandler : MonoBehaviour
         bm.allyCapacity = capacity;
         bm.hasAllyPlayed = true;
         actualUIDisplayed = UITypes.Classic;
+    }
+
+    // Method that handles the end of a battle for the UI
+    public void ExitBattle()
+    {
+        bm.gameObject.SetActive(false);
     }
 }

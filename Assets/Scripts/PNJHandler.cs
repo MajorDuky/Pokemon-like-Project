@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PNJHandler : MonoBehaviour
 {
-    [SerializeField] private PNJScriptableObject dataPNJ;
+    public PNJScriptableObject dataPNJ;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private BoxCollider2D detectionCollider;
 
@@ -25,18 +25,15 @@ public class PNJHandler : MonoBehaviour
             detectionCollider.size = new Vector2(1, Mathf.Abs(dataPNJ.lookOrientation.y * dataPNJ.visionRange));
         }
         sprite.sprite = dataPNJ.sprite;
-        transform.position = dataPNJ.spawnLocation;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // C'EST DU TEST BORDEL
-        // FAUT QUE CE SOIT PLUS PROPRE CONNARD
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerTeamHandler player = FindObjectOfType<PlayerTeamHandler>();
-            player.StartBattle(dataPNJ.pnjTeam);
+            GameManager.Instance.StartBattle(dataPNJ.pnjTeam);
         }
+        
     }
 
     // Update is called once per frame

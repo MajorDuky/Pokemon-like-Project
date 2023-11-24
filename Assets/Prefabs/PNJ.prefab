@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad5a9959b772634aaf5d004f96777ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataPNJ: {fileID: 11400000, guid: 2dde2e91c647da14bb81d0ab5a6a0f16, type: 2}
+  dataPNJ: {fileID: 0}
   sprite: {fileID: 1787847851583135838}
   detectionCollider: {fileID: 2033365317265839056}
 --- !u!50 &8993619275255607318

@@ -11,7 +11,6 @@ public class BattleManager : MonoBehaviour
     public bool hasAllyPlayed;
     public bool hasEnemyPlayed;
     [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerTeamHandler playerTeam;
     public enum BattleChoice
     {
         Attack = 0,
@@ -47,6 +46,11 @@ public class BattleManager : MonoBehaviour
     private void OnDisable()
     {
         roundOrder.Clear();
+        foreach (var monster in GameManager.Instance.playerTeam)
+        {
+            monster.RefillSP();
+        }
+        playerMovement.isInBattle = false;
     }
 
     // Update is called once per frame
@@ -69,12 +73,13 @@ public class BattleManager : MonoBehaviour
     /// <param name="enemyTeam">The enemy's monster team</param>
     public void InitializeBattle(List<MonsterScriptableObject> enemyTeam)
     {
-        allyMonster = playerTeam.playerTeam[0];
+        allyMonster = GameManager.Instance.playerTeam[0];
         enemyMonster = enemyBehavior.InitializeBattle(enemyTeam);
         DetermineRoundOrder();
         ui.InitializeUIBattle(allyMonster, enemyMonster);
     }
 
+    // Method that determines the round order based on the opponents speed
     private void DetermineRoundOrder()
     {
         roundOrder.Clear();
@@ -95,13 +100,15 @@ public class BattleManager : MonoBehaviour
     {
         if (!isBattleOver)
         {
-            if (allyChoice == BattleChoice.Switch || enemyChoice == BattleChoice.Switch)
+            if (allyChoice == BattleChoice.Run || enemyChoice == BattleChoice.Run)
+            {
+                MonsterScriptableObject coward = allyChoice == BattleChoice.Run ? allyMonster : enemyMonster;
+                MonsterScriptableObject bold = allyChoice != BattleChoice.Run ? allyMonster : enemyMonster;
+                RunAttempt(coward, bold);
+            }
+            else if (allyChoice == BattleChoice.Switch || enemyChoice == BattleChoice.Switch)
             {
                 // algo switch
-            }
-            else if (allyChoice == BattleChoice.Run || enemyChoice == BattleChoice.Run)
-            {
-                // algo run
             }
             else
             {
@@ -199,6 +206,18 @@ public class BattleManager : MonoBehaviour
         return dmgValue;
     }
 
+    // Method that determines if a monster can run away from the battle
+    private void RunAttempt(MonsterScriptableObject coward, MonsterScriptableObject bold)
+    {
+        if (coward.speed >= bold.speed)
+        {
+            string determinant = coward.isAlly ? "You" : "The enemy";
+            ui.UpdateBattleText($"{determinant} managed to run away !");
+            ui.ExitBattle();
+        }
+    }
+
+    // Method that handles the end of a battle for the battle manager
     private void EndBattle()
     {
         if (isSuccess)

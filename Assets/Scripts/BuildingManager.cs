@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class BuildingManager : MonoBehaviour
 {
-    [SerializeField] private BuildingScriptableObject building;
+    public BuildingScriptableObject building;
     [SerializeField] private GameObject grid;
     private BoxCollider2D boxCollider;
     // Start is called before the first frame update

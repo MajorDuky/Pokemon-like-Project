@@ -22374,7 +22374,6 @@ GameObject:
   - component: {fileID: 1626297031}
   - component: {fileID: 1626297032}
   - component: {fileID: 1626297033}
-  - component: {fileID: 1626297034}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -22467,21 +22466,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &1626297034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626297030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f80d2f7f6544d59458d2d71d12aa61fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTeam:
-  - {fileID: 11400000, guid: 382c13af374883d4a86e2899523bdb0a, type: 2}
-  battleManager: {fileID: 1982572507}
 --- !u!1 &1652534480
 GameObject:
   m_ObjectHideFlags: 0
@@ -24083,7 +24067,6 @@ MonoBehaviour:
   hasAllyPlayed: 0
   hasEnemyPlayed: 0
   playerMovement: {fileID: 1626297032}
-  playerTeam: {fileID: 1626297034}
   allyChoice: 0
   enemyChoice: 0
   allyCapacity: {fileID: 0}
@@ -24139,6 +24122,68 @@ MonoBehaviour:
   enemyTeam: []
   actualFightingMonster: {fileID: 0}
   bm: {fileID: 1982572507}
+--- !u!1 &1992145602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1992145604}
+  - component: {fileID: 1992145603}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1992145603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992145602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef80558197b27dc41b7cd9a3e217f81d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pnjs:
+  - {fileID: 11400000, guid: 6a40dcd12beafe34b9a7c7108d2e3ca1, type: 2}
+  - {fileID: 11400000, guid: 5bea2761253ac7647ac5da0f7a47e720, type: 2}
+  - {fileID: 11400000, guid: 1ea7413457a607044a1307eb549e34db, type: 2}
+  - {fileID: 11400000, guid: e957254bb6f81b14ca997fde5b60dfc3, type: 2}
+  - {fileID: 11400000, guid: 466d0d26ce17c614d811f06db3e62ec7, type: 2}
+  - {fileID: 11400000, guid: 2dde2e91c647da14bb81d0ab5a6a0f16, type: 2}
+  buildings:
+  - {fileID: 11400000, guid: c81a85fcc0b734b4d9be5acee06a876a, type: 2}
+  - {fileID: 11400000, guid: fc8bc0ac42243b64180688da28ca8f49, type: 2}
+  - {fileID: 11400000, guid: 18342ad41c8f3ea44970fa612c845ae8, type: 2}
+  - {fileID: 11400000, guid: 244cee9db7c193e4aab47fea3135799e, type: 2}
+  pnjHandler: {fileID: 6176780094640989429, guid: 99f890ee77bdc1744a2bf513a7d4d681, type: 3}
+  buildingHandler: {fileID: 3276375114086312929, guid: 6d35151fef6447b4d8c088757190fa38, type: 3}
+  worldObjectTransform: {fileID: 183635559}
+  playerTeam:
+  - {fileID: 11400000, guid: 382c13af374883d4a86e2899523bdb0a, type: 2}
+  battleManager: {fileID: 1982572507}
+--- !u!4 &1992145604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992145602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1994577189
 GameObject:
   m_ObjectHideFlags: 0
@@ -24727,3 +24772,4 @@ SceneRoots:
   - {fileID: 116146925}
   - {fileID: 1223667423}
   - {fileID: 183635559}
+  - {fileID: 1992145604}

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2985047e7240f374db4f82c6c63a2435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 11400000, guid: 244cee9db7c193e4aab47fea3135799e, type: 2}
+  building: {fileID: 0}
   grid: {fileID: 0}
 --- !u!50 &6017880119801456386
 Rigidbody2D:

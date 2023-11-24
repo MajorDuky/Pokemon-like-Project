@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81926cd0b72348c4f9405b921d4a9c4f, type: 3}
+  m_Name: BuildingData 1
+  m_EditorClassIdentifier: 
+  prefabName: 
+  tiles:
+  - {fileID: 11400000, guid: bbf1ccea66a9fd34694678741fd9afb5, type: 2}
+  - {fileID: 11400000, guid: f8c3bdb9034175f4c8f086eae5144466, type: 2}
+  - {fileID: 11400000, guid: 2c72a47c66b1f424bbc9f085c466862e, type: 2}
+  - {fileID: 11400000, guid: 613b63b751004ee4d9a85c3bb8d6d2d8, type: 2}
+  - {fileID: 11400000, guid: 90f87fe6162983e4ea717c4d620fb6c6, type: 2}
+  - {fileID: 11400000, guid: 8889719f9d77fdf49bd5378a23d9f13e, type: 2}
+  - {fileID: 11400000, guid: 964c49866b844ed4482357172b2f12f5, type: 2}
+  - {fileID: 11400000, guid: 901afcb7e2cdf1140a005bb8896760f5, type: 2}
+  - {fileID: 11400000, guid: 45473beed33426848af67adc2e4b80eb, type: 2}
+  doorLocation: {x: 15, y: 10, z: 0}
+  ground: {fileID: 2479285500599628443, guid: 6c0feec64e219c440a9d37344aeb69d9, type: 3}
+  obstacles: {fileID: 989325842913516005, guid: cc1008784def9f441b4b33f567390717, type: 3}
+  exitPoint: {fileID: 7700968375996808177, guid: 415a30e7b33a0bf48865d65727936fe5, type: 3}
+  spawnPoint: {fileID: 3365682563224432186, guid: ffa28741f722d3846a5209b9e53e7922, type: 3}
+  pnjs: []
