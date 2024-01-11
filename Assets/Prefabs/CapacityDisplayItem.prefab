@@ -947,6 +947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1860663717790392776}
+  - component: {fileID: -6135230131271152635}
   m_Layer: 5
   m_Name: CapacityDisplayItem
   m_TagString: Untagged
@@ -984,6 +985,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 630, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &-6135230131271152635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286771200253853327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eff4529be887e543b2550fc20b0d776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacityName: {fileID: 5505144259318610494}
+  capacityDesc: {fileID: 5107409335833460941}
+  capacityType: {fileID: 8281325237343850198}
+  capacitySp: {fileID: 4293694165523775618}
+  capacityAccuracy: {fileID: 1938943472742017866}
+  capacityStrength: {fileID: 1523150313100382007}
 --- !u!1 &7321076386518714743
 GameObject:
   m_ObjectHideFlags: 0

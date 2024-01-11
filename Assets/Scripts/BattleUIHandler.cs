@@ -28,6 +28,7 @@ public class BattleUIHandler : MonoBehaviour
     [SerializeField] private GameObject capacitiesContainer;
     [SerializeField] private GameObject capacityItemPrefab;
     [SerializeField] private BattleManager bm;
+    [SerializeField] private Transform teamUI;
     private enum UITypes
     {
         Classic = 0,
@@ -153,6 +154,8 @@ public class BattleUIHandler : MonoBehaviour
     public void UseTeamButton()
     {
         actualUIDisplayed = UITypes.Team;
+        battleText.text = "Which monster do you want to use ?";
+        teamUI.gameObject.SetActive(true);
         HandleActiveActionsButtons();
     }
 
@@ -176,6 +179,7 @@ public class BattleUIHandler : MonoBehaviour
                 actualUIDisplayed = UITypes.Classic;
                 break;
             case UITypes.Team:
+                teamUI.gameObject.SetActive(false);
                 battleText.text = "Choose your next move.";
                 HandleActiveActionsButtons();
                 actualUIDisplayed = UITypes.Classic;
@@ -309,7 +313,8 @@ public class BattleUIHandler : MonoBehaviour
     public void UseMonsterCapacity(CapacityScriptableObject capacity)
     {
         HandleActiveActionsButtons();
-        HandleInteractableButtons();
+        // HandleInteractableButtons(); A REACTIVER SI ANIMATIONS DE FIGHT GEREES PAS AVANT SINON CA FAIT AUCUN SENS
+        capacityArea.SetActive(false);
         bm.allyChoice = BattleManager.BattleChoice.Capacity;
         bm.allyCapacity = capacity;
         bm.hasAllyPlayed = true;
@@ -320,5 +325,25 @@ public class BattleUIHandler : MonoBehaviour
     public void ExitBattle()
     {
         bm.gameObject.SetActive(false);
+    }
+
+    public void EnemySwitch(MonsterScriptableObject enemy)
+    {
+        UpdateEnemyHP(enemy.health, enemy.maxHealth);
+        UpdateEnemySP(enemy.spiritPower, enemy.maxSpiritPower);
+        UpdateEnemySprite(enemy.frontSprite);
+        UpdateEnemyName(enemy.monsterName);
+        UpdateEnemyLevel(enemy.level);
+    }
+
+    public void AllySwitch(MonsterScriptableObject ally)
+    {
+        UpdateAllyHP(ally.health, ally.maxHealth);
+        UpdateAllySP(ally.spiritPower, ally.maxSpiritPower);
+        UpdateAllyXP(ally.currentXp, ally.xpToLevelUp);
+        UpdateAllyName(ally.monsterName);
+        UpdateAllySprite(ally.backSprite);
+        UpdateAllyLevel(ally.level);
+        FillCapacityArea(ally);
     }
 }

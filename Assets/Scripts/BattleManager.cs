@@ -24,6 +24,7 @@ public class BattleManager : MonoBehaviour
     public CapacityScriptableObject enemyCapacity;
     private List<MonsterScriptableObject> roundOrder;
     private bool isSuccess;
+    public MonsterScriptableObject newPlayerMonster;
     [SerializeField] private BattleUIHandler ui;
     [SerializeField] private EnemyBattleBehavior enemyBehavior;
     [SerializeField] private CapacityScriptableObject defaultCapacity;
@@ -108,7 +109,8 @@ public class BattleManager : MonoBehaviour
             }
             else if (allyChoice == BattleChoice.Switch || enemyChoice == BattleChoice.Switch)
             {
-                // algo switch
+                MonsterScriptableObject switcher = allyChoice == BattleChoice.Switch ? allyMonster : enemyMonster;
+                Switch(switcher);
             }
             else
             {
@@ -137,6 +139,39 @@ public class BattleManager : MonoBehaviour
                         {
                             ui.UpdateEnemySP(enemyMonster.spiritPower, enemyMonster.maxSpiritPower);
                         }
+                    }
+                }
+            }
+
+            // Constat des morts, switch si nécessaire + gestion game over
+            if (!allyMonster.isAlive || !enemyMonster.isAlive)
+            {
+                if (!enemyMonster.isAlive)
+                {
+                    Switch(enemyMonster);
+                }
+                if (GameManager.Instance.isEnemyKO)
+                {
+                    // Victoire allié
+                    isBattleOver = true;
+                    // gagner xp
+                    // sortir combat
+                }
+                else
+                {
+                    GameManager.Instance.InspectMonstersPlayerLife();
+                    if (!GameManager.Instance.isPlayerKO)
+                    {
+                        ui.UpdateBattleText("Your monster is KO, switch with an other !");
+                        ui.UseTeamButton();
+                        ui.HandleInteractableButtons();
+                    }
+                    else
+                    {
+                        // Défaite allié
+                        isBattleOver = true;
+                        // sortir combat
+                        // TP centre soins
                     }
                 }
             }
@@ -214,6 +249,24 @@ public class BattleManager : MonoBehaviour
             string determinant = coward.isAlly ? "You" : "The enemy";
             ui.UpdateBattleText($"{determinant} managed to run away !");
             ui.ExitBattle();
+        }
+    }
+
+    public void Switch(MonsterScriptableObject switchedMonster)
+    {
+        if (switchedMonster.isAlly)
+        {
+            allyMonster = newPlayerMonster;
+            ui.AllySwitch(allyMonster);
+        }
+        else
+        {
+            MonsterScriptableObject newMonster = enemyBehavior.SwitchOrDie();
+            if (enemyMonster.monsterName != newMonster.monsterName)
+            {
+                enemyMonster = newMonster;
+                ui.EnemySwitch(enemyMonster);
+            }
         }
     }
 

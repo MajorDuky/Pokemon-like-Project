@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour
     public List<BuildingScriptableObject> buildings;
     [SerializeField] private PNJHandler pnjHandler;
     [SerializeField] private BuildingManager buildingHandler;
-    [SerializeField] private Transform worldObjectTransform;
+    [SerializeField] private Transform pnjObjectTransform;
+    [SerializeField] private Transform buildingObjectTransform;
     public List<MonsterScriptableObject> playerTeam;
     public BattleManager battleManager;
+    public bool isPlayerKO;
+    public bool isEnemyKO;
+    public int knockedOutMonsters;
     // pense aux monstres
 
     // Start is called before the first frame update
@@ -22,12 +26,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         Instance = this;
-
+        isPlayerKO = false;
+        isEnemyKO = false;
         GeneratePNJ(pnjs);
 
         foreach (var building in buildings)
         {
-            BuildingManager clone = Instantiate(buildingHandler, worldObjectTransform);
+            BuildingManager clone = Instantiate(buildingHandler, buildingObjectTransform);
             clone.building = building;
         }
     }
@@ -47,8 +52,43 @@ public class GameManager : MonoBehaviour
     {
         foreach (var pnj in pnjsToSpawn)
         {
-            PNJHandler clone = Instantiate(pnjHandler, pnj.spawnLocation, Quaternion.identity, worldObjectTransform);
+            PNJHandler clone = Instantiate(pnjHandler, pnj.spawnLocation, Quaternion.identity, pnjObjectTransform);
             clone.dataPNJ = pnj;
         }
+    }
+
+    public void HandlePNJAndBuildingDisplay()
+    {
+        if (pnjObjectTransform.gameObject.activeInHierarchy && buildingObjectTransform.gameObject.activeInHierarchy)
+        {
+            pnjObjectTransform.gameObject.SetActive(false);
+            buildingObjectTransform.gameObject.SetActive(false);
+        }
+        else
+        {
+            pnjObjectTransform.gameObject.SetActive(true);
+            buildingObjectTransform.gameObject.SetActive(true);
+        }
+    }
+
+    public void IncreaseKnockedOutMonsters()
+    {
+        knockedOutMonsters++;
+    }
+
+    public void ResetKnockedOutMonsters()
+    {
+        knockedOutMonsters = 0;
+    }
+
+    public void InspectMonstersPlayerLife()
+    {
+        int koMonsters = 0;
+        foreach (var monster in playerTeam)
+        {
+            koMonsters = !monster.isAlive ? koMonsters++ : koMonsters;
+        }
+
+        isPlayerKO = koMonsters == playerTeam.Count;
     }
 }

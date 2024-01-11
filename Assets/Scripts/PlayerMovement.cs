@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position = playerPosBeforeEnteringBuilding;
             TPMovePoint();
             EnvironmentManager.Instance.ResetDefaultTilemaps();
+            GameManager.Instance.HandlePNJAndBuildingDisplay();
         }
     }
 }

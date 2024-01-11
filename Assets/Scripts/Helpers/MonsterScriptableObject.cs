@@ -50,8 +50,7 @@ public class MonsterScriptableObject : ScriptableObject
         health -= amount;
         if (health <= 0)
         {
-            Debug.Log("Negetive Life Coucou");
-            // BattleManager->gameover
+            isAlive = false;
         }
     }
 
@@ -68,5 +67,11 @@ public class MonsterScriptableObject : ScriptableObject
     public void RefillSP()
     {
         spiritPower = maxSpiritPower;
+    }
+
+    public void Revive()
+    {
+        isAlive = true;
+        health = maxHealth;
     }
 }

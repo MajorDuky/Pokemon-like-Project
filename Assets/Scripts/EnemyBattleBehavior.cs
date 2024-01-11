@@ -30,8 +30,8 @@ public class EnemyBattleBehavior : MonoBehaviour
         {
             isAlone = true;
         }
-
-        return actualFightingMonster = monsters[0];
+        actualFightingMonster = monsters[0];
+        return actualFightingMonster;
     }
 
     public void MakeChoice()
@@ -61,7 +61,6 @@ public class EnemyBattleBehavior : MonoBehaviour
             else
             {
                 bm.enemyChoice = BattleManager.BattleChoice.Switch;
-                // switch
                 bm.hasEnemyPlayed = true;
             }
 
@@ -113,5 +112,34 @@ public class EnemyBattleBehavior : MonoBehaviour
         bm.enemyChoice = BattleManager.BattleChoice.Capacity;
         bm.enemyCapacity = capacityToLaunch;
         bm.hasEnemyPlayed = true;
+    }
+
+    public MonsterScriptableObject SwitchOrDie()
+    {
+        List<MonsterScriptableObject> aliveMonsters = new List<MonsterScriptableObject>();
+        foreach (var monster in enemyTeam)
+        {
+            if(monster.isAlive)
+            {
+                aliveMonsters.Add(monster);
+            }
+        }
+
+        if (aliveMonsters.Count == 0)
+        {
+            GameManager.Instance.IncreaseKnockedOutMonsters();
+            GameManager.Instance.isEnemyKO = true;
+        }
+        else
+        {
+            if (!actualFightingMonster.isAlive)
+            {
+                GameManager.Instance.IncreaseKnockedOutMonsters();
+            }
+            MonsterScriptableObject monsterToSwitchWith = aliveMonsters[Random.Range(0, aliveMonsters.Count)];
+            actualFightingMonster = monsterToSwitchWith;
+        }
+
+        return actualFightingMonster;
     }
 }

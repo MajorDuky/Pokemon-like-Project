@@ -60,6 +60,7 @@ public class BuildingManager : MonoBehaviour
                 playerMovement.TPMovePoint();
                 playerMovement.playerPosBeforeEnteringBuilding = new Vector3(0.5f, -0.5f, 0f) + building.doorLocation;
             }
+            GameManager.Instance.HandlePNJAndBuildingDisplay();
         }   
     }
 }
