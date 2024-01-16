@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public bool isPlayerKO;
     public bool isEnemyKO;
     public int knockedOutMonsters;
+    public float baseXPGain;
+    [SerializeField] private float baseXPGainMultiplier;
+    public Vector2 lastVisitedHealCenterPosition;
     // pense aux monstres
 
     // Start is called before the first frame update
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         isPlayerKO = false;
         isEnemyKO = false;
+        baseXPGainMultiplier = 1.2f;
         GeneratePNJ(pnjs);
 
         foreach (var building in buildings)
@@ -86,9 +90,22 @@ public class GameManager : MonoBehaviour
         int koMonsters = 0;
         foreach (var monster in playerTeam)
         {
-            koMonsters = !monster.isAlive ? koMonsters++ : koMonsters;
+            if (!monster.isAlive)
+            {
+                koMonsters++;
+            }
         }
 
         isPlayerKO = koMonsters == playerTeam.Count;
+    }
+
+    public void IncreaseBaseXPGain()
+    {
+        int currentMaxLvlMonster = 1;
+        foreach (var monster in playerTeam)
+        {
+            currentMaxLvlMonster = currentMaxLvlMonster < monster.level ? monster.level : currentMaxLvlMonster;
+        }
+        baseXPGain = currentMaxLvlMonster * baseXPGainMultiplier;
     }
 }

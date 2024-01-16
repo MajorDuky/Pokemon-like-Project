@@ -18530,7 +18530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &942840332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24968,10 +24968,14 @@ MonoBehaviour:
   playerTeam:
   - {fileID: 11400000, guid: 382c13af374883d4a86e2899523bdb0a, type: 2}
   - {fileID: 11400000, guid: 382c13af374883d4a86e2899523bdb0a, type: 2}
+  - {fileID: 11400000, guid: 10333b02a1f519644bd7a3f7dc3ef004, type: 2}
   battleManager: {fileID: 1982572507}
   isPlayerKO: 0
   isEnemyKO: 0
   knockedOutMonsters: 0
+  baseXPGain: 0
+  baseXPGainMultiplier: 0
+  lastVisitedHealCenterPosition: {x: 0, y: 0}
 --- !u!4 &1992145604
 Transform:
   m_ObjectHideFlags: 0

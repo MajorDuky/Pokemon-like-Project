@@ -29,7 +29,7 @@ public class BattleUIHandler : MonoBehaviour
     [SerializeField] private GameObject capacityItemPrefab;
     [SerializeField] private BattleManager bm;
     [SerializeField] private Transform teamUI;
-    private enum UITypes
+    public enum UITypes
     {
         Classic = 0,
         Capacity = 1,
@@ -37,7 +37,7 @@ public class BattleUIHandler : MonoBehaviour
         Attack = 3,
         Run = 4
     }
-    private UITypes actualUIDisplayed;
+    public UITypes actualUIDisplayed;
 
     // Start is called before the first frame update
     void Start()
@@ -216,6 +216,10 @@ public class BattleUIHandler : MonoBehaviour
                 bm.hasAllyPlayed = true;
                 actualUIDisplayed = UITypes.Classic;
                 break;
+            case UITypes.Team:
+                HandleActiveActionsButtons();
+                actualUIDisplayed = UITypes.Classic;
+                break;
         }
     }
 
@@ -266,6 +270,13 @@ public class BattleUIHandler : MonoBehaviour
     /// <param name="allyMonster">MonsterScriptableObject of the Ally</param>
     public void FillCapacityArea(MonsterScriptableObject allyMonster)
     {
+        if (capacitiesContainer.transform.childCount > 0)
+        {
+            for (int i = 0; i < capacitiesContainer.transform.childCount; i++)
+            {
+                Destroy(capacitiesContainer.transform.GetChild(i).gameObject);
+            }
+        }
         foreach (var capacity in allyMonster.capacitiesList)
         {
             GameObject prefab = Instantiate(capacityItemPrefab, capacitiesContainer.transform);

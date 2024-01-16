@@ -43,6 +43,7 @@ public class MonsterScriptableObject : ScriptableObject
         xpToLevelUp *= levelUpXpMultiplier;
         maxHealth *= levelUpHealthMultiplier;
         maxSpiritPower *= levelUpSPMultiplier;
+        GameManager.Instance.IncreaseBaseXPGain();
     }
 
     public void TakeDamage(float amount)

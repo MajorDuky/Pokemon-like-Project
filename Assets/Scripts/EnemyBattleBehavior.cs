@@ -10,7 +10,7 @@ public class EnemyBattleBehavior : MonoBehaviour
     private bool hasSufficientSP;
     private List<CapacityScriptableObject> usableCapacities = new List<CapacityScriptableObject>();
     private bool isLowHP;
-    private bool isAlone;
+    public bool isAlone;
     private bool isAllTeamInDanger;
 
     // Update is called once per frame
@@ -38,6 +38,7 @@ public class EnemyBattleBehavior : MonoBehaviour
     {
         DetermineSufficientSP(actualFightingMonster.capacitiesList);
         DetermineLowHPState();
+        DetermineIsAloneState();
         if (!isAlone)
         {
             DetermineIsAllTeamInDanger();
@@ -55,11 +56,13 @@ public class EnemyBattleBehavior : MonoBehaviour
             }
             else if (isAllTeamInDanger && !hasSufficientSP)
             {
+                Debug.Log("Coucou");
                 bm.enemyChoice = BattleManager.BattleChoice.Attack;
                 bm.hasEnemyPlayed = true;
             }
             else
             {
+                Debug.Log("Coucou2");
                 bm.enemyChoice = BattleManager.BattleChoice.Switch;
                 bm.hasEnemyPlayed = true;
             }
@@ -141,5 +144,26 @@ public class EnemyBattleBehavior : MonoBehaviour
         }
 
         return actualFightingMonster;
+    }
+
+    private void DetermineIsAloneState()
+    {
+        if (enemyTeam.Count > 1)
+        {
+            int isKO = 0;
+            foreach (var monster in enemyTeam)
+            {
+                if (!monster.isAlive)
+                {
+                    isKO++;
+                }
+            }
+            Debug.Log(isKO);
+            isAlone = isKO == enemyTeam.Count - 1;
+        }
+        else
+        {
+            isAlone = true;
+        }
     }
 }

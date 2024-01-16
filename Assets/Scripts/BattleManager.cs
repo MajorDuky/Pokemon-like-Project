@@ -25,7 +25,7 @@ public class BattleManager : MonoBehaviour
     private List<MonsterScriptableObject> roundOrder;
     private bool isSuccess;
     public MonsterScriptableObject newPlayerMonster;
-    [SerializeField] private BattleUIHandler ui;
+    public BattleUIHandler ui;
     [SerializeField] private EnemyBattleBehavior enemyBehavior;
     [SerializeField] private CapacityScriptableObject defaultCapacity;
 
@@ -150,29 +150,24 @@ public class BattleManager : MonoBehaviour
                 {
                     Switch(enemyMonster);
                 }
+
+                GameManager.Instance.InspectMonstersPlayerLife();
+                if (!GameManager.Instance.isPlayerKO && !allyMonster.isAlive)
+                {
+                    ui.UpdateBattleText("Your monster is KO, switch with an other !");
+                    ui.UseTeamButton();
+                    ui.HandleInteractableButtons();
+                }
+
                 if (GameManager.Instance.isEnemyKO)
                 {
-                    // Victoire allié
-                    isBattleOver = true;
-                    // gagner xp
-                    // sortir combat
+                    isSuccess = true;
+                    EndBattle();
                 }
-                else
+                else if (GameManager.Instance.isPlayerKO)
                 {
-                    GameManager.Instance.InspectMonstersPlayerLife();
-                    if (!GameManager.Instance.isPlayerKO)
-                    {
-                        ui.UpdateBattleText("Your monster is KO, switch with an other !");
-                        ui.UseTeamButton();
-                        ui.HandleInteractableButtons();
-                    }
-                    else
-                    {
-                        // Défaite allié
-                        isBattleOver = true;
-                        // sortir combat
-                        // TP centre soins
-                    }
+                    isSuccess = false;
+                    EndBattle();
                 }
             }
             // Afterglow
@@ -262,7 +257,7 @@ public class BattleManager : MonoBehaviour
         else
         {
             MonsterScriptableObject newMonster = enemyBehavior.SwitchOrDie();
-            if (enemyMonster.monsterName != newMonster.monsterName)
+            if (newMonster.isAlive && !GameManager.Instance.isEnemyKO)
             {
                 enemyMonster = newMonster;
                 ui.EnemySwitch(enemyMonster);
@@ -275,11 +270,20 @@ public class BattleManager : MonoBehaviour
     {
         if (isSuccess)
         {
-            // fermeture combat, prise xp
+            foreach (var monster in GameManager.Instance.playerTeam)
+            {
+                monster.GainXp(GameManager.Instance.baseXPGain * GameManager.Instance.knockedOutMonsters);
+                // ajout de messages dans une liste de messages à afficher
+            }
+            // trigger corout pour afficher au fur et à mesure les messages de la liste
+            gameObject.SetActive(false);
         }
         else
         {
-            // tp joueur centre de soins, message battle over
+            playerMovement.transform.position = GameManager.Instance.lastVisitedHealCenterPosition;
+            playerMovement.TPMovePoint();
+            // Message pseudo game over / corout
+            gameObject.SetActive(false);
         }
     }
 }

@@ -19,5 +19,6 @@ MonoBehaviour:
   - Je suis une table
   pnjTeam:
   - {fileID: 11400000, guid: f546a4ff404c7c94691e5e6f5f0cf820, type: 2}
+  - {fileID: 11400000, guid: b9847a83993b2014eb2606c638401e1e, type: 2}
   lookOrientation: {x: 0, y: 1}
   visionRange: 8

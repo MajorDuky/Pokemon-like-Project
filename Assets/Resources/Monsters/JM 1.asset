@@ -26,10 +26,10 @@ MonoBehaviour:
   weaknessesList:
   - {fileID: 11400000, guid: e8edf01bdd4b7bb44a9500a79968927b, type: 2}
   ignoreDmgList: []
-  health: 125
+  health: 200
   maxHealth: 200
   levelUpHealthMultiplier: 1.1
-  spiritPower: 90
+  spiritPower: 150
   maxSpiritPower: 150
   levelUpSPMultiplier: 1.1
   frontSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}

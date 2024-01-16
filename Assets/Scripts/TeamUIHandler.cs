@@ -65,6 +65,10 @@ public class TeamUIHandler : MonoBehaviour
     public void SwitchMonster(MonsterScriptableObject newMonster)
     {
         bm.newPlayerMonster = newMonster;
+        bm.allyChoice = BattleManager.BattleChoice.Switch;
+        bm.hasAllyPlayed = true;
+        bm.ui.UseConfirmButton();
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
