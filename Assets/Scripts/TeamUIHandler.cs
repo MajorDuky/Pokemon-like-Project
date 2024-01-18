@@ -70,10 +70,4 @@ public class TeamUIHandler : MonoBehaviour
         bm.ui.UseConfirmButton();
         gameObject.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

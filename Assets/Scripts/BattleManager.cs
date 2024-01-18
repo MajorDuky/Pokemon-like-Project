@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private MonsterScriptableObject allyMonster;
-    private MonsterScriptableObject enemyMonster;
+    public MonsterScriptableObject allyMonster;
+    public MonsterScriptableObject enemyMonster;
     private bool isBattleOver;
     private int roundCounter;
     public bool hasAllyPlayed;
@@ -37,11 +37,6 @@ public class BattleManager : MonoBehaviour
         hasAllyPlayed = false;
         hasEnemyPlayed = false;
         playerMovement.isInBattle = true;
-    }
-
-    private void Start()
-    {
-        
     }
 
     private void OnDisable()
@@ -140,34 +135,13 @@ public class BattleManager : MonoBehaviour
                             ui.UpdateEnemySP(enemyMonster.spiritPower, enemyMonster.maxSpiritPower);
                         }
                     }
-                }
-            }
 
-            // Constat des morts, switch si nécessaire + gestion game over
-            if (!allyMonster.isAlive || !enemyMonster.isAlive)
-            {
-                if (!enemyMonster.isAlive)
-                {
-                    Switch(enemyMonster);
-                }
-
-                GameManager.Instance.InspectMonstersPlayerLife();
-                if (!GameManager.Instance.isPlayerKO && !allyMonster.isAlive)
-                {
-                    ui.UpdateBattleText("Your monster is KO, switch with an other !");
-                    ui.UseTeamButton();
-                    ui.HandleInteractableButtons();
-                }
-
-                if (GameManager.Instance.isEnemyKO)
-                {
-                    isSuccess = true;
-                    EndBattle();
-                }
-                else if (GameManager.Instance.isPlayerKO)
-                {
-                    isSuccess = false;
-                    EndBattle();
+                    // Constat des morts, switch si nécessaire + gestion game over
+                    bool endBattle = ActionEndChecks();
+                    if (endBattle)
+                    {
+                        break;
+                    }
                 }
             }
             // Afterglow
@@ -247,6 +221,10 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method that is called when the player or the enemy wants to switch monster
+    /// </summary>
+    /// <param name="switchedMonster">The monster to switch</param>
     public void Switch(MonsterScriptableObject switchedMonster)
     {
         if (switchedMonster.isAlly)
@@ -265,16 +243,51 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method that is called at the end of the player and the enemy's actions.
+    /// Determines if a battle has to end. Succesfully or not.
+    /// </summary>
+    /// <returns>Boolean : returns true when the player or the enemy is out of monsters</returns>
+    private bool ActionEndChecks()
+    {
+        bool isAnOpponentKO = false;
+        if (!allyMonster.isAlive || !enemyMonster.isAlive)
+        {
+            if (!enemyMonster.isAlive)
+            {
+                Switch(enemyMonster);
+            }
+
+            GameManager.Instance.InspectMonstersPlayerLife();
+            if (!GameManager.Instance.isPlayerKO && !allyMonster.isAlive)
+            {
+                ui.UpdateBattleText("Your monster is KO, switch with an other !");
+                ui.UseTeamButton();
+                ui.HandleInteractableButtons();
+            }
+
+            if (GameManager.Instance.isEnemyKO)
+            {
+                isAnOpponentKO = true;
+                isSuccess = true;
+                EndBattle();
+            }
+            else if (GameManager.Instance.isPlayerKO)
+            {
+                isAnOpponentKO = true;
+                isSuccess = false;
+                EndBattle();
+            }
+        }
+        return isAnOpponentKO;
+    }
+
     // Method that handles the end of a battle for the battle manager
     private void EndBattle()
     {
         if (isSuccess)
         {
-            foreach (var monster in GameManager.Instance.playerTeam)
-            {
-                monster.GainXp(GameManager.Instance.baseXPGain * GameManager.Instance.knockedOutMonsters);
-                // ajout de messages dans une liste de messages à afficher
-            }
+            GameManager.Instance.SuccessBattleEnd();
             // trigger corout pour afficher au fur et à mesure les messages de la liste
             gameObject.SetActive(false);
         }
@@ -282,6 +295,12 @@ public class BattleManager : MonoBehaviour
         {
             playerMovement.transform.position = GameManager.Instance.lastVisitedHealCenterPosition;
             playerMovement.TPMovePoint();
+            GameManager.Instance.MassHealPlayer();
+            foreach (var monster in enemyBehavior.enemyTeam)
+            {
+                monster.Revive();
+                monster.RefillSP();
+            }
             // Message pseudo game over / corout
             gameObject.SetActive(false);
         }

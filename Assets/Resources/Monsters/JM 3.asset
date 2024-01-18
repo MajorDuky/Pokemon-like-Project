@@ -29,7 +29,7 @@ MonoBehaviour:
   health: 300
   maxHealth: 300
   levelUpHealthMultiplier: 1.1
-  spiritPower: 20
+  spiritPower: 190
   maxSpiritPower: 250
   levelUpSPMultiplier: 1.1
   frontSprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}

@@ -17,12 +17,6 @@ public class BuildingManager : MonoBehaviour
         PaintBuiding();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Method that paints the building's tiles on the designated tilemaps
     /// </summary>

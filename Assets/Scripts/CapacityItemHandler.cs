@@ -14,17 +14,6 @@ public class CapacityItemHandler : MonoBehaviour
     public Button useCapacityButton;
     [SerializeField] private GameObject basicDetails;
     [SerializeField] private GameObject advancedDetails;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void HandleActiveDetails()
     {

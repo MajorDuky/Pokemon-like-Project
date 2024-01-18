@@ -7,7 +7,7 @@ public class PNJHandler : MonoBehaviour
 {
     public PNJScriptableObject dataPNJ;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private BoxCollider2D detectionCollider;
+    public BoxCollider2D detectionCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +32,8 @@ public class PNJHandler : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             GameManager.Instance.StartBattle(dataPNJ.pnjTeam);
+            GameManager.Instance.actualFightingPNJ = this;
         }
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
 }

@@ -48,7 +48,15 @@ public class MonsterScriptableObject : ScriptableObject
 
     public void TakeDamage(float amount)
     {
-        health -= amount;
+        if (amount > health)
+        {
+            health = 0;
+        }
+        else
+        {
+            health -= amount;
+        }
+        
         if (health <= 0)
         {
             isAlive = false;

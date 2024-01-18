@@ -13,12 +13,6 @@ public class EnemyBattleBehavior : MonoBehaviour
     public bool isAlone;
     private bool isAllTeamInDanger;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public MonsterScriptableObject InitializeBattle(List<MonsterScriptableObject> monsters)
     {
         foreach (var monster in monsters)
@@ -34,6 +28,7 @@ public class EnemyBattleBehavior : MonoBehaviour
         return actualFightingMonster;
     }
 
+    // Main algorithm that determines what the enemy should do during a battle
     public void MakeChoice()
     {
         DetermineSufficientSP(actualFightingMonster.capacitiesList);
@@ -56,13 +51,11 @@ public class EnemyBattleBehavior : MonoBehaviour
             }
             else if (isAllTeamInDanger && !hasSufficientSP)
             {
-                Debug.Log("Coucou");
                 bm.enemyChoice = BattleManager.BattleChoice.Attack;
                 bm.hasEnemyPlayed = true;
             }
             else
             {
-                Debug.Log("Coucou2");
                 bm.enemyChoice = BattleManager.BattleChoice.Switch;
                 bm.hasEnemyPlayed = true;
             }
@@ -79,6 +72,11 @@ public class EnemyBattleBehavior : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method that helps the main algorithm takes its decision.
+    /// This one helps determine if the enemy has enough SP to launch a capacity
+    /// </summary>
+    /// <param name="availableCapacities">List of the enemy's capacities</param>
     public void DetermineSufficientSP(List<CapacityScriptableObject> availableCapacities)
     {
         usableCapacities.Clear();
@@ -92,23 +90,35 @@ public class EnemyBattleBehavior : MonoBehaviour
         hasSufficientSP = usableCapacities.Count > 0;
     }
 
+    /// <summary>
+    /// Method that helps the main algorithm takes its decision.
+    /// This one helps determine if the enemy's actual fighting monster's HP are low
+    /// </summary>
     public void DetermineLowHPState()
     {
         float lowHPValue = actualFightingMonster.maxHealth / 5;
         isLowHP = actualFightingMonster.health <= lowHPValue;
     }
 
+    /// <summary>
+    /// Method that helps the main algorithm takes its decision.
+    /// This one helps determine if the enemy's monsters are all low in HP
+    /// </summary>
     public void DetermineIsAllTeamInDanger()
     {
         int inDangerCounter = 0;
         foreach (var monster in enemyTeam)
         {
             float lowHPValue = monster.maxHealth / 5;
-            inDangerCounter = actualFightingMonster.health <= lowHPValue ? inDangerCounter++ : inDangerCounter;
+            if (monster.health <= lowHPValue)
+            {
+                inDangerCounter++;
+            }
         }
         isAllTeamInDanger = inDangerCounter == enemyTeam.Count;
     }
 
+    // Method that is called when the main algorithm decides to launch a capacity
     private void LaunchCapacitySequence()
     {
         CapacityScriptableObject capacityToLaunch = usableCapacities[Random.Range(0, usableCapacities.Count)];
@@ -117,6 +127,7 @@ public class EnemyBattleBehavior : MonoBehaviour
         bm.hasEnemyPlayed = true;
     }
 
+    // Method that switches monster and help the GameManager to calculate the final XP gain by increasing the knockedOutMonsters counter.
     public MonsterScriptableObject SwitchOrDie()
     {
         List<MonsterScriptableObject> aliveMonsters = new List<MonsterScriptableObject>();
@@ -146,6 +157,10 @@ public class EnemyBattleBehavior : MonoBehaviour
         return actualFightingMonster;
     }
 
+    /// <summary>
+    /// Method that helps the main algorithm takes its decision.
+    /// This one helps determine if the enemy has only one monster remaining
+    /// </summary>
     private void DetermineIsAloneState()
     {
         if (enemyTeam.Count > 1)

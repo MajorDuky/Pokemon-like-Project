@@ -39,23 +39,12 @@ public class BattleUIHandler : MonoBehaviour
     }
     public UITypes actualUIDisplayed;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     private void OnEnable()
     {
         actualUIDisplayed = UITypes.Classic;
         battleText.text = "Choose your next move.";
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     // Modifies the ally name text in the battle UI
     public void UpdateAllyName(string name)
@@ -138,6 +127,7 @@ public class BattleUIHandler : MonoBehaviour
     {
         actualUIDisplayed = UITypes.Capacity;
         battleText.text = "Choose the capacity you want to use.";
+        FillCapacityArea(GameManager.Instance.battleManager.allyMonster.capacitiesList);
         HandleActiveActionsButtons();
         capacityArea.SetActive(true);
     }
@@ -267,8 +257,8 @@ public class BattleUIHandler : MonoBehaviour
     /// <summary>
     /// Fills the capacity area with a list of the ally's monster capacities
     /// </summary>
-    /// <param name="allyMonster">MonsterScriptableObject of the Ally</param>
-    public void FillCapacityArea(MonsterScriptableObject allyMonster)
+    /// <param name="allyMonsterCapacities">List of all the ally's capacities</param>
+    public void FillCapacityArea(List<CapacityScriptableObject> allyMonsterCapacities)
     {
         if (capacitiesContainer.transform.childCount > 0)
         {
@@ -277,7 +267,7 @@ public class BattleUIHandler : MonoBehaviour
                 Destroy(capacitiesContainer.transform.GetChild(i).gameObject);
             }
         }
-        foreach (var capacity in allyMonster.capacitiesList)
+        foreach (var capacity in allyMonsterCapacities)
         {
             GameObject prefab = Instantiate(capacityItemPrefab, capacitiesContainer.transform);
             if (prefab.GetComponent<CapacityItemHandler>())
@@ -289,6 +279,10 @@ public class BattleUIHandler : MonoBehaviour
                 handler.capacityTypeValue.text = capacity.type.typeName;
                 handler.capacityDetails.text = capacity.description;
                 handler.useCapacityButton.onClick.AddListener(() => UseMonsterCapacity(capacity));
+                if (capacity.spValue > GameManager.Instance.battleManager.allyMonster.spiritPower)
+                {
+                    handler.useCapacityButton.interactable = false;
+                }
             }
         }
     }
@@ -307,7 +301,6 @@ public class BattleUIHandler : MonoBehaviour
         UpdateAllyName(ally.monsterName);
         UpdateAllySprite(ally.backSprite);
         UpdateAllyLevel(ally.level);
-        FillCapacityArea(ally);
 
         // Enemy initialization
         UpdateEnemyHP(enemy.health, enemy.maxHealth);
@@ -355,6 +348,6 @@ public class BattleUIHandler : MonoBehaviour
         UpdateAllyName(ally.monsterName);
         UpdateAllySprite(ally.backSprite);
         UpdateAllyLevel(ally.level);
-        FillCapacityArea(ally);
+        FillCapacityArea(ally.capacitiesList);
     }
 }
