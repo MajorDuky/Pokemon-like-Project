@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BuildingManager buildingHandler;
     [SerializeField] private Transform pnjObjectTransform;
     [SerializeField] private Transform buildingObjectTransform;
+    [SerializeField] private GameOverScreenAnimationHandler gameOverAnim;
     public List<MonsterScriptableObject> playerTeam;
     public BattleManager battleManager;
     public bool isPlayerKO;
@@ -134,5 +135,34 @@ public class GameManager : MonoBehaviour
             monster.Revive();
             monster.RefillSP();
         }
+    }
+
+    public MonsterScriptableObject DetermineFirstLivingMonsterInPlayerTeam()
+    {
+        MonsterScriptableObject firstLivingMonster = playerTeam[0];
+        if (!firstLivingMonster.isAlive)
+        {
+            for (int monsterId = 0; monsterId < playerTeam.Count; monsterId++)
+            {
+                if (playerTeam[monsterId].isAlive)
+                {
+                    firstLivingMonster = playerTeam[monsterId];
+                    break;
+                }
+            }
+        }
+        return firstLivingMonster;
+    }
+
+    public void LaunchGameOverSequence()
+    {
+        StartCoroutine(GameOverAnimCoroutine());
+    }
+
+    private IEnumerator GameOverAnimCoroutine()
+    {
+        gameOverAnim.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        gameOverAnim.EndOfAnimation();
     }
 }

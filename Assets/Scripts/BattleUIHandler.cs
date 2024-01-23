@@ -29,6 +29,7 @@ public class BattleUIHandler : MonoBehaviour
     [SerializeField] private GameObject capacityItemPrefab;
     [SerializeField] private BattleManager bm;
     [SerializeField] private Transform teamUI;
+    [SerializeField] private Button returnButton;
     public enum UITypes
     {
         Classic = 0,
@@ -208,6 +209,10 @@ public class BattleUIHandler : MonoBehaviour
                 break;
             case UITypes.Team:
                 HandleActiveActionsButtons();
+                if(!returnButton.interactable)
+                {
+                    returnButton.interactable = true;
+                }
                 actualUIDisplayed = UITypes.Classic;
                 break;
         }

@@ -27,6 +27,11 @@ public class TeamUIHandler : MonoBehaviour
             clone.UpdateSprite(monster.frontSprite);
             clone.showCapacitiesBtn.onClick.AddListener(() => FillCapacityDisplayer(monster.capacitiesList));
             clone.switchMonsterButton.onClick.AddListener(() => SwitchMonster(monster));
+            if(!monster.isAlive)
+            {
+                clone.switchMonsterButton.interactable = false;
+                // pense à faire un sprite tête de mort à afficher à côté du nom du monstre KO.
+            }
         }
     }
 

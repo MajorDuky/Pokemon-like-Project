@@ -69,7 +69,7 @@ public class BattleManager : MonoBehaviour
     /// <param name="enemyTeam">The enemy's monster team</param>
     public void InitializeBattle(List<MonsterScriptableObject> enemyTeam)
     {
-        allyMonster = GameManager.Instance.playerTeam[0];
+        allyMonster = GameManager.Instance.DetermineFirstLivingMonsterInPlayerTeam();
         enemyMonster = enemyBehavior.InitializeBattle(enemyTeam);
         DetermineRoundOrder();
         ui.InitializeUIBattle(allyMonster, enemyMonster);
@@ -301,7 +301,7 @@ public class BattleManager : MonoBehaviour
                 monster.Revive();
                 monster.RefillSP();
             }
-            // Message pseudo game over / corout
+            GameManager.Instance.LaunchGameOverSequence();
             gameObject.SetActive(false);
         }
     }
