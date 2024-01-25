@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float baseXPGainMultiplier;
     public Vector2 lastVisitedHealCenterPosition;
     public PNJHandler actualFightingPNJ;
+    public bool isInBattle;
     // pense aux monstres
 
     // Start is called before the first frame update
@@ -156,13 +157,7 @@ public class GameManager : MonoBehaviour
 
     public void LaunchGameOverSequence()
     {
-        StartCoroutine(GameOverAnimCoroutine());
-    }
-
-    private IEnumerator GameOverAnimCoroutine()
-    {
         gameOverAnim.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        gameOverAnim.EndOfAnimation();
+        gameOverAnim.StartGameOverSequence();
     }
 }

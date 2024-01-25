@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour
     public MonsterScriptableObject allyMonster;
     public MonsterScriptableObject enemyMonster;
     private bool isBattleOver;
+    public bool isWildEncounter;
     private int roundCounter;
     public bool hasAllyPlayed;
     public bool hasEnemyPlayed;
@@ -70,6 +71,7 @@ public class BattleManager : MonoBehaviour
     public void InitializeBattle(List<MonsterScriptableObject> enemyTeam)
     {
         allyMonster = GameManager.Instance.DetermineFirstLivingMonsterInPlayerTeam();
+        GameManager.Instance.isInBattle = true;
         enemyMonster = enemyBehavior.InitializeBattle(enemyTeam);
         DetermineRoundOrder();
         ui.InitializeUIBattle(allyMonster, enemyMonster);
@@ -285,6 +287,7 @@ public class BattleManager : MonoBehaviour
     // Method that handles the end of a battle for the battle manager
     private void EndBattle()
     {
+        GameManager.Instance.isInBattle = false;
         if (isSuccess)
         {
             GameManager.Instance.SuccessBattleEnd();

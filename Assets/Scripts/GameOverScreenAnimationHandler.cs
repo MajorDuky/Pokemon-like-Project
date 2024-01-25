@@ -10,16 +10,30 @@ public class GameOverScreenAnimationHandler : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text gameOverText;
 
-    private void OnEnable()
+    public void StartGameOverSequence()
     {
+        StartCoroutine(GameOverAnimCoroutine());
+    }
+
+    private IEnumerator GameOverAnimCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        for (float textAlpha = 1; textAlpha > 0; textAlpha -= .05f)
+        {
+            gameOverText.faceColor = new Color(1, 1, 1, textAlpha);
+            yield return new WaitForEndOfFrame();
+        }
+        gameOverText.enabled = false;
         animator.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(3f);
+        EndOfAnimation();
     }
 
     public void EndOfAnimation()
     {
-        Debug.Log("Coucou");
         image.color = Color.black;
         gameOverText.faceColor = Color.white;
+        gameOverText.enabled = true;
         gameObject.SetActive(false);
     }
 }

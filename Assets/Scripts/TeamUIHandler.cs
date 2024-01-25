@@ -32,6 +32,10 @@ public class TeamUIHandler : MonoBehaviour
                 clone.switchMonsterButton.interactable = false;
                 // pense à faire un sprite tête de mort à afficher à côté du nom du monstre KO.
             }
+            if(!GameManager.Instance.isInBattle)
+            {
+                clone.switchMonsterButton.enabled = false;
+            }
         }
     }
 
@@ -73,6 +77,7 @@ public class TeamUIHandler : MonoBehaviour
         bm.allyChoice = BattleManager.BattleChoice.Switch;
         bm.hasAllyPlayed = true;
         bm.ui.UseConfirmButton();
+        bm.ui.UpdateBattleText("You switched your monster for " + newMonster.monsterName + " !");
         gameObject.SetActive(false);
     }
 }
