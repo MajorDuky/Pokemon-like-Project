@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
     [SerializeField] private float movementSpeed;
     [SerializeField] private Transform movePoint;
     [SerializeField] private LayerMask obstacles;
@@ -12,6 +13,14 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 playerPosBeforeEnteringBuilding;
     public bool isInBattle;
 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {

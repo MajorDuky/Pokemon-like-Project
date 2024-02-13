@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public bool isEnemyKO;
     public int knockedOutMonsters;
     public float baseXPGain;
+    public bool isWildEncounter;
     [SerializeField] private float baseXPGainMultiplier;
     public Vector2 lastVisitedHealCenterPosition;
     public PNJHandler actualFightingPNJ;
@@ -50,8 +51,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void StartBattle(List<MonsterScriptableObject> enemyTeam)
+    public void StartBattle(List<MonsterScriptableObject> enemyTeam, bool isEnemyWildEncounter)
     {
+        isWildEncounter = isEnemyWildEncounter;
         battleManager.gameObject.SetActive(true);
         battleManager.InitializeBattle(enemyTeam);
     }
@@ -125,7 +127,10 @@ public class GameManager : MonoBehaviour
             monster.GainXp(baseXPGain * knockedOutMonsters);
             // ajout de messages dans une liste de messages à afficher
         }
-        actualFightingPNJ.detectionCollider.enabled = false;
+        if (!isWildEncounter)
+        {
+            actualFightingPNJ.detectionCollider.enabled = false;
+        }
     }
 
     // Method that heals entirely the player's team

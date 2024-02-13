@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using System;
+using Unity.Mathematics;
 
 public class BattleUIHandler : MonoBehaviour
 {
@@ -62,28 +64,29 @@ public class BattleUIHandler : MonoBehaviour
     // Modifies the ally HP value text in the battle UI
     public void UpdateAllyHP(float newAmount, float maxHP)
     {
-        allyHPText.text = $"{newAmount.ToString()} / {maxHP.ToString()}";
+
+        allyHPText.text = $"{Math.Floor(newAmount).ToString()} / {Math.Floor(maxHP).ToString()}";
         allyHPSlider.value = newAmount / maxHP;
     }
 
     // Modifies the enemy HP value text in the battle UI
     public void UpdateEnemyHP(float newAmount, float maxHP)
     {
-        enemyHPText.text = $"{newAmount.ToString()} / {maxHP.ToString()}";
+        enemyHPText.text = $"{Math.Floor(newAmount).ToString()} / {Math.Floor(maxHP).ToString()}";
         enemyHPSlider.value = newAmount / maxHP;
     }
 
     // Modifies the ally SP value text in the battle UI
     public void UpdateAllySP(float newAmount, float maxSP)
     {
-        allySPText.text = $"{newAmount.ToString()} / {maxSP.ToString()}";
+        allySPText.text = $"{Math.Floor(newAmount).ToString()} / {Math.Floor(maxSP).ToString()}";
         allySPSlider.value = newAmount / maxSP;
     }
 
     // Modifies the enemy SP value text in the battle UI
     public void UpdateEnemySP(float newAmount, float maxSP)
     {
-        enemySPText.text = $"{newAmount.ToString()} / {maxSP.ToString()}";
+        enemySPText.text = $"{Math.Floor(newAmount).ToString()} / {Math.Floor(maxSP).ToString()}";
         enemySPSlider.value = newAmount / maxSP;
     }
 

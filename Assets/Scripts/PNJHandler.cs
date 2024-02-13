@@ -31,7 +31,7 @@ public class PNJHandler : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.StartBattle(dataPNJ.pnjTeam);
+            GameManager.Instance.StartBattle(dataPNJ.pnjTeam, false);
             GameManager.Instance.actualFightingPNJ = this;
         }
         

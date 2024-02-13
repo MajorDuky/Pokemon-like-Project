@@ -7,7 +7,6 @@ public class BattleManager : MonoBehaviour
     public MonsterScriptableObject allyMonster;
     public MonsterScriptableObject enemyMonster;
     private bool isBattleOver;
-    public bool isWildEncounter;
     private int roundCounter;
     public bool hasAllyPlayed;
     public bool hasEnemyPlayed;
@@ -219,6 +218,7 @@ public class BattleManager : MonoBehaviour
         {
             string determinant = coward.isAlly ? "You" : "The enemy";
             ui.UpdateBattleText($"{determinant} managed to run away !");
+            GameManager.Instance.isInBattle = false;
             ui.ExitBattle();
         }
     }

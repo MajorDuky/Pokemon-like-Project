@@ -31,19 +31,28 @@ public class MonsterScriptableObject : ScriptableObject
         currentXp += amountToAdd;
         if (currentXp >= xpToLevelUp)
         {
-            LevelUp();
+            LevelUp(1);
         }
     }
 
-    public void LevelUp()
+    public void LevelUp(int lvlToGain)
     {
         float deltaXp = currentXp - xpToLevelUp;
+        deltaXp = deltaXp < 0 ? 0 : deltaXp;
         currentXp = deltaXp;
-        level++;
-        xpToLevelUp *= levelUpXpMultiplier;
-        maxHealth *= levelUpHealthMultiplier;
-        maxSpiritPower *= levelUpSPMultiplier;
-        GameManager.Instance.IncreaseBaseXPGain();
+        level += lvlToGain;
+        for (int i = 0; i < lvlToGain; i++)
+        {
+            xpToLevelUp *= levelUpXpMultiplier;
+            maxHealth *= levelUpHealthMultiplier;
+            maxSpiritPower *= levelUpSPMultiplier;
+        }
+        Revive();
+        RefillSP();
+        if (isAlly)
+        {
+            GameManager.Instance.IncreaseBaseXPGain();
+        }
     }
 
     public void TakeDamage(float amount)
