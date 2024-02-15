@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public Vector2 lastVisitedHealCenterPosition;
     public PNJHandler actualFightingPNJ;
     public bool isInBattle;
+    public int strongestMonsterLvl;
     // pense aux monstres
 
     // Start is called before the first frame update
@@ -164,5 +165,18 @@ public class GameManager : MonoBehaviour
     {
         gameOverAnim.gameObject.SetActive(true);
         gameOverAnim.StartGameOverSequence();
+    }
+
+    public void DetermineStrongestMonsterLvlInPlayerTeam()
+    {
+        int highestLvl = 1;
+        foreach (var monster in playerTeam)
+        {
+            if (monster.level > highestLvl)
+            {
+                highestLvl = monster.level;
+            }
+        }
+        strongestMonsterLvl = highestLvl;
     }
 }

@@ -293,6 +293,11 @@ public class BattleManager : MonoBehaviour
             GameManager.Instance.SuccessBattleEnd();
             // trigger corout pour afficher au fur et à mesure les messages de la liste
             gameObject.SetActive(false);
+            if (GameManager.Instance.isWildEncounter)
+            {
+                enemyMonster.Revive();
+                enemyMonster.RefillSP();
+            }
         }
         else
         {

@@ -24,7 +24,7 @@ MonoBehaviour:
   strengthsList: []
   weaknessesList: []
   ignoreDmgList: []
-  health: 0
+  health: 117.8974
   maxHealth: 117.8974
   levelUpHealthMultiplier: 1.1
   spiritPower: 27.730791
@@ -33,5 +33,5 @@ MonoBehaviour:
   frontSprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
   backSprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
   speed: 50
-  isAlive: 0
+  isAlive: 1
   isAlly: 0
