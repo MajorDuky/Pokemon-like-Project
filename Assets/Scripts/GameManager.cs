@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
         {
             actualFightingPNJ.detectionCollider.enabled = false;
         }
+        isEnemyKO = false;
     }
 
     // Method that heals entirely the player's team

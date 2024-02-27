@@ -16,7 +16,8 @@ public class BattleManager : MonoBehaviour
         Attack = 0,
         Capacity = 1,
         Switch = 2,
-        Run = 3
+        Run = 3,
+        Submission = 4
     }
     public BattleChoice allyChoice;
     public BattleChoice enemyChoice;
@@ -24,6 +25,7 @@ public class BattleManager : MonoBehaviour
     public CapacityScriptableObject enemyCapacity;
     private List<MonsterScriptableObject> roundOrder;
     private bool isSuccess;
+    private bool isSubmitted;
     public MonsterScriptableObject newPlayerMonster;
     public BattleUIHandler ui;
     [SerializeField] private EnemyBattleBehavior enemyBehavior;
@@ -97,7 +99,19 @@ public class BattleManager : MonoBehaviour
     {
         if (!isBattleOver)
         {
-            if (allyChoice == BattleChoice.Run || enemyChoice == BattleChoice.Run)
+            if (allyChoice == BattleChoice.Submission && GameManager.Instance.isWildEncounter)
+            {
+                isSubmitted = Random.Range(0f, 100f) <= enemyMonster.submissionRate;
+                if (isSubmitted)
+                {
+                    // Delencher Anim Soumission Réussie
+                }
+                else
+                {
+                    ui.UpdateBattleText("You failed to submit the monster !");
+                }
+            }
+            else if (allyChoice == BattleChoice.Run || enemyChoice == BattleChoice.Run)
             {
                 MonsterScriptableObject coward = allyChoice == BattleChoice.Run ? allyMonster : enemyMonster;
                 MonsterScriptableObject bold = allyChoice != BattleChoice.Run ? allyMonster : enemyMonster;
@@ -110,6 +124,9 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
+
+                // BOSSE LA DESSUS
+
                 foreach (var monster in roundOrder)
                 {
                     if (monster.isAlly)
@@ -143,6 +160,12 @@ public class BattleManager : MonoBehaviour
                     {
                         break;
                     }
+
+                    enemyBehavior.DetermineLowHPState();
+                    if (enemyBehavior.isLowHP && GameManager.Instance.isWildEncounter)
+                    {
+                        ui.DisplaySubmissionUI();
+                    }
                 }
             }
             // Afterglow
@@ -150,6 +173,15 @@ public class BattleManager : MonoBehaviour
             hasEnemyPlayed = false;
             // test valeurs HP + conditions sur état de la team : game over si tous les alliés = KO / win si tous les ennemis = KO
             roundCounter++;
+
+            if (isSubmitted)
+            {
+                isSuccess = true;
+                // PENSE A LA LIMITE DE MONSTRES DANS LA TEAM (ENVOYER DANS LA BANQUE QUAND PLEIN)
+                GameManager.Instance.playerTeam.Add(enemyMonster);
+                enemyMonster.isAlly = true;
+                EndBattle();
+            }
         }
         else
         {

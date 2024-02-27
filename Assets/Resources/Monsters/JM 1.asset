@@ -37,3 +37,4 @@ MonoBehaviour:
   speed: 50
   isAlive: 1
   isAlly: 0
+  submissionRate: 0

@@ -15,6 +15,10 @@ public class DangerGauge : MonoBehaviour
     private bool hasTimerStarted = false;
     private float baseTimerValue;
     private float timer;
+    public Color32 lowDanger;
+    public Color32 mediumDanger;
+    public Color32 highDanger;
+    public Color32 wtfAreYouDoingHere;
 
     // Start is called before the first frame update
     void Start()
@@ -51,16 +55,16 @@ public class DangerGauge : MonoBehaviour
         switch (deltaLvl)
         {
             case >= 10:
-                dangerIndicatorIcon.color = new Color32(183, 101, 241, 255);
+                dangerIndicatorIcon.color = wtfAreYouDoingHere;
                 break;
             case >= 5:
-                dangerIndicatorIcon.color = new Color32(241, 101, 101, 255);
+                dangerIndicatorIcon.color = highDanger;
                 break;
             case >= 0:
-                dangerIndicatorIcon.color = new Color32(241, 183, 102, 255);
+                dangerIndicatorIcon.color = mediumDanger;
                 break;
             case < 0:
-                dangerIndicatorIcon.color = new Color32(156, 241, 101, 255);
+                dangerIndicatorIcon.color = lowDanger;
                 break;
         }
         hasTimerStarted = true;

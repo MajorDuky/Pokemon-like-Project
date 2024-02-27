@@ -9,7 +9,7 @@ public class EnemyBattleBehavior : MonoBehaviour
     [SerializeField] private BattleManager bm;
     private bool hasSufficientSP;
     private List<CapacityScriptableObject> usableCapacities = new List<CapacityScriptableObject>();
-    private bool isLowHP;
+    public bool isLowHP;
     public bool isAlone;
     private bool isAllTeamInDanger;
 

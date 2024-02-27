@@ -25,6 +25,7 @@ public class MonsterScriptableObject : ScriptableObject
     public float speed;
     public bool isAlive;
     public bool isAlly;
+    public float submissionRate;
 
     public void GainXp(float amountToAdd)
     {
