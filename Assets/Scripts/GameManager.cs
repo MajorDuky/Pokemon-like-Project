@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public PNJHandler actualFightingPNJ;
     public bool isInBattle;
     public int strongestMonsterLvl;
+    public RandomSpawner currentSpawner;
     // pense aux monstres
 
     // Start is called before the first frame update

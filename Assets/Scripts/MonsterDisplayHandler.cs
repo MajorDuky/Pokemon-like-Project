@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 public class MonsterDisplayHandler : MonoBehaviour
 {
@@ -52,19 +54,19 @@ public class MonsterDisplayHandler : MonoBehaviour
 
     public void UpdateHealth(float hp, float maxHp)
     {
-        monsterHealth.text = $"{hp}/{maxHp}";
+        monsterHealth.text = $"{Math.Floor(hp).ToString()} / {Math.Floor(maxHp).ToString()}";
         sliderHealth.value = hp / maxHp;
     }
 
     public void UpdateSP(float sp, float maxSp)
     {
-        monsterSP.text = $"{sp}/{maxSp}";
+        monsterSP.text = $"{Math.Floor(sp).ToString()} / {Math.Floor(maxSp).ToString()}";
         sliderSP.value = sp / maxSp;
     }
 
     public void UpdateXP(float xp, float maxXp)
     {
-        monsterXP.text = $"{xp}/{maxXp}";
+        monsterXP.text = $"{Math.Floor(xp).ToString()} / {Math.Floor(maxXp).ToString()}";
         sliderXP.value = xp / maxXp;
     }
 

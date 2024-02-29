@@ -13,6 +13,11 @@ public class EnemyBattleBehavior : MonoBehaviour
     public bool isAlone;
     private bool isAllTeamInDanger;
 
+    private void OnDisable()
+    {
+        enemyTeam.Clear();
+    }
+
     public MonsterScriptableObject InitializeBattle(List<MonsterScriptableObject> monsters)
     {
         foreach (var monster in monsters)

@@ -32,7 +32,7 @@ public class BattleUIHandler : MonoBehaviour
     [SerializeField] private BattleManager bm;
     [SerializeField] private Transform teamUI;
     [SerializeField] private Button returnButton;
-    [SerializeField] private SubmissionUI submissionUI;
+    public SubmissionUI submissionUI;
     public enum UITypes
     {
         Classic = 0,
@@ -360,8 +360,9 @@ public class BattleUIHandler : MonoBehaviour
         FillCapacityArea(ally.capacitiesList);
     }
 
-    public void DisplaySubmissionUI()
+    public void HandleSubmissionUIDisplay()
     {
-        submissionUI.gameObject.SetActive(true);
+        bool displayState = !submissionUI.gameObject.activeInHierarchy;
+        submissionUI.gameObject.SetActive(displayState);
     }
 }

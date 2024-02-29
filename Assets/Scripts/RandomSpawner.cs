@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RandomSpawner : MonoBehaviour
 {
-    [SerializeField] private List<MonsterScriptableObject> encounterableMonsters;
+    public List<MonsterScriptableObject> encounterableMonsters;
     [SerializeField] private string areaName;
     [SerializeField] private int areaLvl;
     [SerializeField] private float probabilityOfEncounter;
@@ -14,9 +14,12 @@ public class RandomSpawner : MonoBehaviour
     public bool isInArea = false;
     public bool isCoroutineRunning = false;
 
-
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if(!isInArea)
+        {
+            GameManager.Instance.currentSpawner = this;
+        }
         isInArea = true;
         if (!isCoroutineRunning && !GameManager.Instance.isInBattle)
         {
@@ -31,6 +34,7 @@ public class RandomSpawner : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         isInArea = false;
+        GameManager.Instance.currentSpawner = null;
         StopCoroutine(FightProbabiltyCoroutine());
         dangerGauge.StopDangerGauge();
     }

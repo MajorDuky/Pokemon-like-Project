@@ -99,35 +99,34 @@ public class BattleManager : MonoBehaviour
     {
         if (!isBattleOver)
         {
-            if (allyChoice == BattleChoice.Submission && GameManager.Instance.isWildEncounter)
+            foreach (var monster in roundOrder)
             {
-                isSubmitted = Random.Range(0f, 100f) <= enemyMonster.submissionRate;
-                if (isSubmitted)
+                // Submission by the ally
+                if (allyChoice == BattleChoice.Submission && GameManager.Instance.isWildEncounter)
                 {
-                    // Delencher Anim Soumission Réussie
+                    isSubmitted = Random.Range(0f, 100f) <= enemyMonster.submissionRate;
+                    if (isSubmitted)
+                    {
+                        // Delencher Anim Soumission Réussie
+                    }
+                    else
+                    {
+                        Debug.Log("FAIL");
+                        ui.UpdateBattleText("You failed to submit the monster !");
+                    }
+                }
+                else if (monster.isAlly && allyChoice == BattleChoice.Run || !monster.isAlly && enemyChoice == BattleChoice.Run)
+                {
+                    MonsterScriptableObject coward = monster.isAlly ? allyMonster : enemyMonster;
+                    MonsterScriptableObject bold = !monster.isAlly ? allyMonster : enemyMonster;
+                    RunAttempt(coward, bold);
+                }
+                else if (monster.isAlly && allyChoice == BattleChoice.Switch || !monster.isAlly && enemyChoice == BattleChoice.Switch)
+                {
+                    MonsterScriptableObject switcher = monster.isAlly ? allyMonster : enemyMonster;
+                    Switch(switcher);
                 }
                 else
-                {
-                    ui.UpdateBattleText("You failed to submit the monster !");
-                }
-            }
-            else if (allyChoice == BattleChoice.Run || enemyChoice == BattleChoice.Run)
-            {
-                MonsterScriptableObject coward = allyChoice == BattleChoice.Run ? allyMonster : enemyMonster;
-                MonsterScriptableObject bold = allyChoice != BattleChoice.Run ? allyMonster : enemyMonster;
-                RunAttempt(coward, bold);
-            }
-            else if (allyChoice == BattleChoice.Switch || enemyChoice == BattleChoice.Switch)
-            {
-                MonsterScriptableObject switcher = allyChoice == BattleChoice.Switch ? allyMonster : enemyMonster;
-                Switch(switcher);
-            }
-            else
-            {
-
-                // BOSSE LA DESSUS
-
-                foreach (var monster in roundOrder)
                 {
                     if (monster.isAlly)
                     {
@@ -153,19 +152,18 @@ public class BattleManager : MonoBehaviour
                             ui.UpdateEnemySP(enemyMonster.spiritPower, enemyMonster.maxSpiritPower);
                         }
                     }
+                }
+                // Constat des morts, switch si nécessaire + gestion game over
+                bool endBattle = ActionEndChecks();
+                if (endBattle)
+                {
+                    break;
+                }
 
-                    // Constat des morts, switch si nécessaire + gestion game over
-                    bool endBattle = ActionEndChecks();
-                    if (endBattle)
-                    {
-                        break;
-                    }
-
-                    enemyBehavior.DetermineLowHPState();
-                    if (enemyBehavior.isLowHP && GameManager.Instance.isWildEncounter)
-                    {
-                        ui.DisplaySubmissionUI();
-                    }
+                enemyBehavior.DetermineLowHPState();
+                if (enemyBehavior.isLowHP && GameManager.Instance.isWildEncounter && !ui.submissionUI.gameObject.activeInHierarchy)
+                {
+                    ui.HandleSubmissionUIDisplay();
                 }
             }
             // Afterglow
@@ -180,6 +178,7 @@ public class BattleManager : MonoBehaviour
                 // PENSE A LA LIMITE DE MONSTRES DANS LA TEAM (ENVOYER DANS LA BANQUE QUAND PLEIN)
                 GameManager.Instance.playerTeam.Add(enemyMonster);
                 enemyMonster.isAlly = true;
+                GameManager.Instance.currentSpawner.encounterableMonsters.Remove(enemyMonster);
                 EndBattle();
             }
         }
@@ -320,16 +319,22 @@ public class BattleManager : MonoBehaviour
     private void EndBattle()
     {
         GameManager.Instance.isInBattle = false;
+        isSubmitted = false;
+        if (GameManager.Instance.isWildEncounter)
+        {
+            ui.HandleSubmissionUIDisplay();
+        }
         if (isSuccess)
         {
             GameManager.Instance.SuccessBattleEnd();
-            // trigger corout pour afficher au fur et à mesure les messages de la liste
-            gameObject.SetActive(false);
+            GameManager.Instance.knockedOutMonsters = 0;
             if (GameManager.Instance.isWildEncounter)
             {
                 enemyMonster.Revive();
                 enemyMonster.RefillSP();
             }
+            // trigger corout pour afficher au fur et à mesure les messages de la liste
+            gameObject.SetActive(false);
         }
         else
         {
@@ -342,6 +347,7 @@ public class BattleManager : MonoBehaviour
                 monster.RefillSP();
             }
             GameManager.Instance.LaunchGameOverSequence();
+            GameManager.Instance.knockedOutMonsters = 0;
             gameObject.SetActive(false);
         }
     }
