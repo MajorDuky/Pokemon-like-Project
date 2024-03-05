@@ -24,7 +24,7 @@ MonoBehaviour:
   strengthsList: []
   weaknessesList: []
   ignoreDmgList: []
-  health: 17.8974
+  health: 117.8974
   maxHealth: 117.8974
   levelUpHealthMultiplier: 1.1
   spiritPower: 27.730791

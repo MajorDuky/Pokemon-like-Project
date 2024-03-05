@@ -26,7 +26,7 @@ MonoBehaviour:
   weaknessesList:
   - {fileID: 11400000, guid: e8edf01bdd4b7bb44a9500a79968927b, type: 2}
   ignoreDmgList: []
-  health: 200
+  health: 220
   maxHealth: 220
   levelUpHealthMultiplier: 1.1
   spiritPower: 165

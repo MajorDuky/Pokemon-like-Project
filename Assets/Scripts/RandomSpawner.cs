@@ -13,12 +13,14 @@ public class RandomSpawner : MonoBehaviour
     [SerializeField] private DangerGauge dangerGauge;
     public bool isInArea = false;
     public bool isCoroutineRunning = false;
+    public float baseXPGain;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if(!isInArea)
         {
             GameManager.Instance.currentSpawner = this;
+            GameManager.Instance.baseXPGain = baseXPGain;
         }
         isInArea = true;
         if (!isCoroutineRunning && !GameManager.Instance.isInBattle)
@@ -37,6 +39,7 @@ public class RandomSpawner : MonoBehaviour
         GameManager.Instance.currentSpawner = null;
         StopCoroutine(FightProbabiltyCoroutine());
         dangerGauge.StopDangerGauge();
+        GameManager.Instance.baseXPGain = 0f;
     }
 
     IEnumerator FightProbabiltyCoroutine()
