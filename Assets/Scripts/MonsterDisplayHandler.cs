@@ -4,8 +4,11 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
-public class MonsterDisplayHandler : MonoBehaviour
+public class MonsterDisplayHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     [SerializeField] private TMP_Text monsterName;
     [SerializeField] private TMP_Text monsterLvl;
@@ -19,6 +22,8 @@ public class MonsterDisplayHandler : MonoBehaviour
     [SerializeField] private Image sprite;
     public Button showCapacitiesBtn;
     public Button switchMonsterButton;
+    [SerializeField] private RectTransform selectedSprite;
+    [SerializeField] private Selectable selectable;
 
     public void UpdateName(string name)
     {
@@ -73,5 +78,14 @@ public class MonsterDisplayHandler : MonoBehaviour
     public void UpdateSprite(Sprite monsterSprite)
     {
         sprite.sprite = monsterSprite;
+    }
+
+    public void OnSelect(BaseEventData baseEvent)
+    {
+        selectedSprite.gameObject.SetActive(true);
+    }
+    public void OnDeselect(BaseEventData baseEvent)
+    {
+        selectedSprite.gameObject.SetActive(false);
     }
 }

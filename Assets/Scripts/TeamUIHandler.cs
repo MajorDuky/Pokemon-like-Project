@@ -2,15 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TeamUIHandler : MonoBehaviour
 {
-    [SerializeField] private Transform monsterContainer;
+    [SerializeField] private RectTransform monsterContainer;
+    [SerializeField] private RectTransform teamContainer;
     [SerializeField] private Transform capacityContainer;
     [SerializeField] private MonsterDisplayHandler monsterDisplayPrefab;
     [SerializeField] private CapacityDisplayHandler capacityDisplayPrefab;
     [SerializeField] private Transform capacitiesDisplayer;
     [SerializeField] private BattleManager bm;
+    [SerializeField] private Button activateNecroBtn;
+    [SerializeField] private Button deactivateNecroBtn;
+    [SerializeField] private Transform necronomiconUI;
+    [SerializeField] private Button retireMonsterBtn;
+    [SerializeField] private Button storeMonsterBtn;
+    [SerializeField] private Button switchMonsterBtn;
+    public List<MonsterScriptableObject> selectedMonsters;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -37,6 +46,10 @@ public class TeamUIHandler : MonoBehaviour
                 clone.switchMonsterButton.enabled = false;
             }
         }
+        if (!GameManager.Instance.isInBattle)
+        {
+            activateNecroBtn.gameObject.SetActive(true);
+        }
     }
 
     void OnDisable()
@@ -44,6 +57,14 @@ public class TeamUIHandler : MonoBehaviour
         for (int i = 0; i < monsterContainer.childCount; i++)
         {
             Destroy(monsterContainer.GetChild(i).gameObject);
+        }
+        if (!GameManager.Instance.isInBattle && activateNecroBtn.gameObject.activeInHierarchy)
+        {
+            activateNecroBtn.gameObject.SetActive(false);
+        }
+        if (!GameManager.Instance.isInBattle && necronomiconUI.gameObject.activeInHierarchy)
+        {
+            DeactivateNecro();
         }
     }
 
@@ -79,5 +100,27 @@ public class TeamUIHandler : MonoBehaviour
         bm.ui.UseConfirmButton();
         bm.ui.UpdateBattleText("You switched your monster for " + newMonster.monsterName + " !");
         gameObject.SetActive(false);
+    }
+
+    public void ActivateNecro()
+    {
+        teamContainer.sizeDelta = new Vector2(400, teamContainer.sizeDelta.y);
+        necronomiconUI.gameObject.SetActive(true);
+        activateNecroBtn.gameObject.SetActive(false);
+        deactivateNecroBtn.gameObject.SetActive(true);
+        retireMonsterBtn.gameObject.SetActive(true);
+        storeMonsterBtn.gameObject.SetActive(true);
+        switchMonsterBtn.gameObject.SetActive(true);
+    }
+
+    public void DeactivateNecro()
+    {
+        teamContainer.sizeDelta = new Vector2(800, teamContainer.sizeDelta.y);
+        necronomiconUI.gameObject.SetActive(false);
+        deactivateNecroBtn.gameObject.SetActive(false);
+        activateNecroBtn.gameObject.SetActive(true);
+        retireMonsterBtn.gameObject.SetActive(false);
+        storeMonsterBtn.gameObject.SetActive(false);
+        switchMonsterBtn.gameObject.SetActive(false);
     }
 }
