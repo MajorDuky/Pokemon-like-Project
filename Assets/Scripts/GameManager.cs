@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform pnjObjectTransform;
     [SerializeField] private Transform buildingObjectTransform;
     [SerializeField] private GameOverScreenAnimationHandler gameOverAnim;
+    public int maxMonsterInTeam = 3;
+    public TeamUIHandler teamUIHandler;
     public List<MonsterScriptableObject> playerTeam;
     public BattleManager battleManager;
     public bool isPlayerKO;

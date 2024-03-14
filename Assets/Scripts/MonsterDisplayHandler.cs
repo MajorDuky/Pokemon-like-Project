@@ -8,8 +8,9 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 
-public class MonsterDisplayHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class MonsterDisplayHandler : MonoBehaviour
 {
+    public MonsterScriptableObject monster;
     [SerializeField] private TMP_Text monsterName;
     [SerializeField] private TMP_Text monsterLvl;
     [SerializeField] private TMP_Text monsterTypes;
@@ -23,7 +24,7 @@ public class MonsterDisplayHandler : MonoBehaviour, ISelectHandler, IDeselectHan
     public Button showCapacitiesBtn;
     public Button switchMonsterButton;
     [SerializeField] private RectTransform selectedSprite;
-    [SerializeField] private Selectable selectable;
+    private bool isSelected;
 
     public void UpdateName(string name)
     {
@@ -80,12 +81,37 @@ public class MonsterDisplayHandler : MonoBehaviour, ISelectHandler, IDeselectHan
         sprite.sprite = monsterSprite;
     }
 
-    public void OnSelect(BaseEventData baseEvent)
+    public void HandleSelection()
+    {
+        if (isSelected)
+        {
+            isSelected = false;
+            if (GameManager.Instance.teamUIHandler.selectedMonsters.Count == 1)
+            {
+                GameManager.Instance.teamUIHandler.selectedMonsters.Clear();
+            }
+            else
+            {
+                GameManager.Instance.teamUIHandler.selectedMonsters.Remove(monster);
+            }
+            DeselectItem();
+        }
+        else
+        {
+            isSelected = true;
+            GameManager.Instance.teamUIHandler.selectedMonsters.Add(monster);
+            SelectItem();
+        }
+    }
+
+    private void SelectItem()
     {
         selectedSprite.gameObject.SetActive(true);
+        GameManager.Instance.teamUIHandler.HandleActiveActionButtons();
     }
-    public void OnDeselect(BaseEventData baseEvent)
+    private void DeselectItem()
     {
         selectedSprite.gameObject.SetActive(false);
+        GameManager.Instance.teamUIHandler.HandleActiveActionButtons();
     }
 }

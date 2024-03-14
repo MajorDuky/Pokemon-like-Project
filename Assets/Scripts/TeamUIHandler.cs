@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TeamUIHandler : MonoBehaviour
 {
@@ -19,7 +21,9 @@ public class TeamUIHandler : MonoBehaviour
     [SerializeField] private Button retireMonsterBtn;
     [SerializeField] private Button storeMonsterBtn;
     [SerializeField] private Button switchMonsterBtn;
-    public List<MonsterScriptableObject> selectedMonsters;
+    [HideInInspector] public List<MonsterScriptableObject> selectedMonsters = new List<MonsterScriptableObject>();
+    [SerializeField] private Transform tutoSection;
+    [SerializeField] private TMP_Text organizeHelperText;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -34,6 +38,7 @@ public class TeamUIHandler : MonoBehaviour
             clone.UpdateSP(monster.spiritPower, monster.maxSpiritPower);
             clone.UpdateXP(monster.currentXp, monster.xpToLevelUp);
             clone.UpdateSprite(monster.frontSprite);
+            clone.monster = monster;
             clone.showCapacitiesBtn.onClick.AddListener(() => FillCapacityDisplayer(monster.capacitiesList));
             clone.switchMonsterButton.onClick.AddListener(() => SwitchMonster(monster));
             if(!monster.isAlive)
@@ -122,5 +127,69 @@ public class TeamUIHandler : MonoBehaviour
         retireMonsterBtn.gameObject.SetActive(false);
         storeMonsterBtn.gameObject.SetActive(false);
         switchMonsterBtn.gameObject.SetActive(false);
+    }
+
+    public void HandleActiveActionButtons()
+    {
+        if (selectedMonsters != null)
+        {
+            int monsterSelectedInTeam = 0;
+            int monsterSelectedInNecro = 0;
+            int deltaMissingMonsters = GameManager.Instance.maxMonsterInTeam - GameManager.Instance.playerTeam.Count;
+            storeMonsterBtn.interactable = false;
+            retireMonsterBtn.interactable = false;
+            switchMonsterBtn.interactable = false;
+
+            foreach (var currentMonster in selectedMonsters)
+            {
+                if (currentMonster.isInNecronomicon)
+                {
+                    monsterSelectedInNecro++;
+                }
+                else
+                {
+                    monsterSelectedInTeam++;
+                }
+            }
+
+            if (monsterSelectedInTeam > 0 && monsterSelectedInNecro == 0)
+            {
+                if (monsterSelectedInTeam == GameManager.Instance.maxMonsterInTeam - deltaMissingMonsters)
+                {
+                    organizeHelperText.text = "You can't have an empty team !";
+                }
+                else
+                {
+                    storeMonsterBtn.interactable = true;
+                }
+            }
+            else if (monsterSelectedInTeam == 0 && monsterSelectedInNecro > 0)
+            {
+                if (monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
+                {
+                    organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
+                }
+                else if (monsterSelectedInNecro > deltaMissingMonsters)
+                {
+                    organizeHelperText.text = "Too few remaining slots in your team !";
+                }
+                else
+                {
+                    retireMonsterBtn.interactable = true;
+                }
+            }
+            else
+            {
+                if (monsterSelectedInNecro > deltaMissingMonsters + monsterSelectedInTeam || 
+                    monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
+                {
+                    organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
+                }
+                else
+                {
+                    switchMonsterBtn.interactable = true;
+                }
+            }
+        }
     }
 }
