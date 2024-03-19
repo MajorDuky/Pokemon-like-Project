@@ -37,4 +37,5 @@ MonoBehaviour:
   speed: 50
   isAlive: 1
   isAlly: 1
+  isInNecronomicon: 0
   submissionRate: 0

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcf19229191b56419f24c255f09b90f, type: 3}
+  m_Name: NecroTest
+  m_EditorClassIdentifier: 
+  monsterName: Ayla
+  level: 99
+  currentXp: 9999
+  xpToLevelUp: 10000
+  levelUpXpMultiplier: 1.1
+  capacitiesList:
+  - {fileID: 11400000, guid: f05df954d871595409ab64597043041d, type: 2}
+  typesList:
+  - {fileID: 11400000, guid: 8fee0e81d035a3d4cbc52abbd2dd1652, type: 2}
+  strengthsList: []
+  weaknessesList: []
+  ignoreDmgList: []
+  health: 800
+  maxHealth: 800
+  levelUpHealthMultiplier: 1.1
+  spiritPower: 70
+  maxSpiritPower: 70
+  levelUpSPMultiplier: 1.1
+  frontSprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
+  backSprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
+  speed: 100
+  isAlive: 1
+  isAlly: 1
+  isInNecronomicon: 1
+  submissionRate: 0

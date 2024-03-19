@@ -81,19 +81,23 @@ public class MonsterDisplayHandler : MonoBehaviour
         sprite.sprite = monsterSprite;
     }
 
+    public void UpdateAllInformations(MonsterScriptableObject monster)
+    {
+        UpdateName(monster.monsterName);
+        UpdateLevel(monster.level);
+        UpdateTypes(monster.typesList);
+        UpdateHealth(monster.health, monster.maxHealth);
+        UpdateXP(monster.currentXp, monster.xpToLevelUp);
+        UpdateSP(monster.spiritPower, monster.maxSpiritPower);
+        UpdateSprite(monster.frontSprite);
+    }
+
     public void HandleSelection()
     {
         if (isSelected)
         {
             isSelected = false;
-            if (GameManager.Instance.teamUIHandler.selectedMonsters.Count == 1)
-            {
-                GameManager.Instance.teamUIHandler.selectedMonsters.Clear();
-            }
-            else
-            {
-                GameManager.Instance.teamUIHandler.selectedMonsters.Remove(monster);
-            }
+            GameManager.Instance.teamUIHandler.selectedMonsters.Remove(monster);
             DeselectItem();
         }
         else

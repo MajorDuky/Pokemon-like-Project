@@ -24,56 +24,55 @@ public class TeamUIHandler : MonoBehaviour
     [HideInInspector] public List<MonsterScriptableObject> selectedMonsters = new List<MonsterScriptableObject>();
     [SerializeField] private Transform tutoSection;
     [SerializeField] private TMP_Text organizeHelperText;
+    [SerializeField] private NecronomiconHandler necronomiconHandler;
+    [SerializeField] private Transform playerActions;
 
     // Start is called before the first frame update
     void OnEnable()
     {
-        foreach (var monster in GameManager.Instance.playerTeam)
-        {
-            MonsterDisplayHandler clone = Instantiate(monsterDisplayPrefab, monsterContainer);
-            clone.UpdateName(monster.monsterName);
-            clone.UpdateLevel(monster.level);
-            clone.UpdateTypes(monster.typesList);
-            clone.UpdateHealth(monster.health, monster.maxHealth);
-            clone.UpdateSP(monster.spiritPower, monster.maxSpiritPower);
-            clone.UpdateXP(monster.currentXp, monster.xpToLevelUp);
-            clone.UpdateSprite(monster.frontSprite);
-            clone.monster = monster;
-            clone.showCapacitiesBtn.onClick.AddListener(() => FillCapacityDisplayer(monster.capacitiesList));
-            clone.switchMonsterButton.onClick.AddListener(() => SwitchMonster(monster));
-            if(!monster.isAlive)
-            {
-                clone.switchMonsterButton.interactable = false;
-                // pense à faire un sprite tête de mort à afficher à côté du nom du monstre KO.
-            }
-            if(!GameManager.Instance.isInBattle)
-            {
-                clone.switchMonsterButton.enabled = false;
-            }
-        }
+        ActualizePlayerTeam();
         if (!GameManager.Instance.isInBattle)
         {
             activateNecroBtn.gameObject.SetActive(true);
+            playerActions.gameObject.SetActive(true);
+        }
+        else
+        {
+            playerActions.gameObject.SetActive(false);
         }
     }
 
     void OnDisable()
     {
+        CloseTeamUI();
+    }
+
+    public void ActualizePlayerTeam()
+    {
         for (int i = 0; i < monsterContainer.childCount; i++)
         {
             Destroy(monsterContainer.GetChild(i).gameObject);
         }
-        if (!GameManager.Instance.isInBattle && activateNecroBtn.gameObject.activeInHierarchy)
+        foreach (var monster in GameManager.Instance.playerTeam)
         {
-            activateNecroBtn.gameObject.SetActive(false);
-        }
-        if (!GameManager.Instance.isInBattle && necronomiconUI.gameObject.activeInHierarchy)
-        {
-            DeactivateNecro();
+            MonsterDisplayHandler clone = Instantiate(monsterDisplayPrefab, monsterContainer);
+            clone.UpdateAllInformations(monster);
+            clone.monster = monster;
+            clone.showCapacitiesBtn.onClick.AddListener(() => FillCapacityDisplayer(monster.capacitiesList));
+            clone.switchMonsterButton.onClick.AddListener(() => SwitchMonster(monster));
+            if (!monster.isAlive)
+            {
+                clone.switchMonsterButton.interactable = false;
+                // pense à faire un sprite tête de mort à afficher à côté du nom du monstre KO.
+            }
+            if (!GameManager.Instance.isInBattle)
+            {
+                clone.switchMonsterButton.enabled = false;
+            }
         }
     }
 
-    void FillCapacityDisplayer(List<CapacityScriptableObject> capacitiesList)
+    public void FillCapacityDisplayer(List<CapacityScriptableObject> capacitiesList)
     {
         capacitiesDisplayer.gameObject.SetActive(true);
         foreach (var capacity in capacitiesList)
@@ -131,14 +130,16 @@ public class TeamUIHandler : MonoBehaviour
 
     public void HandleActiveActionButtons()
     {
-        if (selectedMonsters != null)
+        storeMonsterBtn.interactable = false;
+        retireMonsterBtn.interactable = false;
+        switchMonsterBtn.interactable = false;
+        tutoSection.gameObject.SetActive(false);
+
+        if (selectedMonsters.Count != 0)
         {
             int monsterSelectedInTeam = 0;
             int monsterSelectedInNecro = 0;
             int deltaMissingMonsters = GameManager.Instance.maxMonsterInTeam - GameManager.Instance.playerTeam.Count;
-            storeMonsterBtn.interactable = false;
-            retireMonsterBtn.interactable = false;
-            switchMonsterBtn.interactable = false;
 
             foreach (var currentMonster in selectedMonsters)
             {
@@ -156,6 +157,7 @@ public class TeamUIHandler : MonoBehaviour
             {
                 if (monsterSelectedInTeam == GameManager.Instance.maxMonsterInTeam - deltaMissingMonsters)
                 {
+                    tutoSection.gameObject.SetActive(true);
                     organizeHelperText.text = "You can't have an empty team !";
                 }
                 else
@@ -167,10 +169,12 @@ public class TeamUIHandler : MonoBehaviour
             {
                 if (monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
                 {
+                    tutoSection.gameObject.SetActive(true);
                     organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
                 }
                 else if (monsterSelectedInNecro > deltaMissingMonsters)
                 {
+                    tutoSection.gameObject.SetActive(true);
                     organizeHelperText.text = "Too few remaining slots in your team !";
                 }
                 else
@@ -183,6 +187,7 @@ public class TeamUIHandler : MonoBehaviour
                 if (monsterSelectedInNecro > deltaMissingMonsters + monsterSelectedInTeam || 
                     monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
                 {
+                    tutoSection.gameObject.SetActive(true);
                     organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
                 }
                 else
@@ -191,5 +196,70 @@ public class TeamUIHandler : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RetireMonster()
+    {
+        foreach (var monster in selectedMonsters)
+        {
+            monster.isInNecronomicon = false;
+            GameManager.Instance.playerTeam.Add(monster);
+            necronomiconHandler.monstersInNecro.Remove(monster);
+        }
+        necronomiconHandler.ActualizeNecronomicon();
+        ActualizePlayerTeam();
+        selectedMonsters.Clear();
+    }
+
+    public void StoreMonster()
+    {
+        foreach (var monster in selectedMonsters)
+        {
+            monster.isInNecronomicon = true;
+            GameManager.Instance.playerTeam.Remove(monster);
+            necronomiconHandler.monstersInNecro.Add(monster);
+        }
+        necronomiconHandler.ActualizeNecronomicon();
+        ActualizePlayerTeam();
+        selectedMonsters.Clear();
+    }
+
+    public void SwitchMonstersBetweenTeamAndNecro()
+    {
+        foreach (var monster in selectedMonsters)
+        {
+            if (monster.isInNecronomicon)
+            {
+                monster.isInNecronomicon = false;
+                GameManager.Instance.playerTeam.Add(monster);
+                necronomiconHandler.monstersInNecro.Remove(monster);
+            }
+            else
+            {
+                monster.isInNecronomicon = true;
+                GameManager.Instance.playerTeam.Remove(monster);
+                necronomiconHandler.monstersInNecro.Add(monster);
+            }
+        }
+        necronomiconHandler.ActualizeNecronomicon();
+        ActualizePlayerTeam();
+        selectedMonsters.Clear();
+    }
+
+    public void CloseTeamUI()
+    {
+        for (int i = 0; i < monsterContainer.childCount; i++)
+        {
+            Destroy(monsterContainer.GetChild(i).gameObject);
+        }
+        if (!GameManager.Instance.isInBattle && activateNecroBtn.gameObject.activeInHierarchy)
+        {
+            activateNecroBtn.gameObject.SetActive(false);
+        }
+        if (!GameManager.Instance.isInBattle && necronomiconUI.gameObject.activeInHierarchy)
+        {
+            DeactivateNecro();
+        }
+        gameObject.SetActive(false);
     }
 }

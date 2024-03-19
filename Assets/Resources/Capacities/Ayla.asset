@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ed508b184c82e4092e3f9fb7b35424, type: 3}
+  m_Name: Ayla
+  m_EditorClassIdentifier: 
+  capacityName: Cat Attack
+  strength: 200
+  accuracy: 100
+  type: {fileID: 11400000, guid: 8fee0e81d035a3d4cbc52abbd2dd1652, type: 2}
+  description: Te nique ta race
+  spValue: 3
