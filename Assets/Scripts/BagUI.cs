@@ -11,15 +11,6 @@ public class BagUI : MonoBehaviour
         OtherItems = 2
     }
 
-    // Item lists
-
-
-
-    private void OnEnable()
-    {
-        
-    }
-
     public void DisplayTab(Tabs tabToDisplay)
     {
 

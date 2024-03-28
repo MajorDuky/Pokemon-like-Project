@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ClassicActions
   - ConfirmAction
+  - PickupableItem
   layers:
   - Default
   - TransparentFX
