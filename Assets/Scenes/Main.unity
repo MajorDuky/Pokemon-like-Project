@@ -25149,6 +25149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3340718738e377f41af3a9fd0907ea0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemContainer: {fileID: 460342687}
 --- !u!1 &1261808686
 GameObject:
   m_ObjectHideFlags: 0
@@ -26666,6 +26667,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healItemList: []
+  itemDisplayPrefab: {fileID: 7015071363039526673, guid: 66f254254f46e3f4db772204ff2c33c5, type: 3}
+  usableItemDisplayPrefab: {fileID: 7008966982669712649, guid: 222a8d06422bf664aaa38815633a34fa, type: 3}
 --- !u!1 &1405549752
 GameObject:
   m_ObjectHideFlags: 0
@@ -29858,6 +29861,7 @@ GameObject:
   - component: {fileID: 1739303827}
   - component: {fileID: 1739303829}
   - component: {fileID: 1739303828}
+  - component: {fileID: 1739303830}
   m_Layer: 5
   m_Name: Bag
   m_TagString: Untagged
@@ -29981,6 +29985,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739303826}
   m_CullTransparentMesh: 1
+--- !u!114 &1739303830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739303826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393663d208aadde4b822088da3aabc9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bagUI: {fileID: 1261139054}
 --- !u!1 &1770590131
 GameObject:
   m_ObjectHideFlags: 0
