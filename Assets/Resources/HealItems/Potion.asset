@@ -15,5 +15,7 @@ MonoBehaviour:
   itemName: Potion
   itemDescription: It's a potion, what do you expect it to do ?
   itemSprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  itemQuantity: 0
+  isInBag: 0
   isUsable: 1
   healAmount: 20

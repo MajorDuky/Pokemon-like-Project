@@ -20,13 +20,27 @@ public class BagHandler : MonoBehaviour
         HealItemScriptableObject healItem = item as HealItemScriptableObject;
         if(healItem)
         {
-            healItemList.Add(healItem);
+            healItem.itemQuantity++;
+            if (!healItem.isInBag)
+            {
+                healItem.isInBag = true;
+                healItemList.Add(healItem);
+            }
         }
         // AUTRES TYPES D'ITEMS
     }
 
     private void FillBagTab(BagUI.Tabs tabsToDisplay, RectTransform itemContainer)
     {
+        
+        if (itemContainer.childCount > 0)
+        {
+            for (int child = 0; child < itemContainer.childCount; child++)
+            {
+                Destroy(itemContainer.GetChild(child).gameObject);
+            }
+        }
+        
         switch (tabsToDisplay)
         {
             case BagUI.Tabs.KeyItems:

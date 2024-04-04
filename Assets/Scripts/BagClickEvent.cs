@@ -12,4 +12,3 @@ public class BagClickEvent : MonoBehaviour, IPointerClickHandler
         bagUI.gameObject.SetActive(true);
     }
 }
-

@@ -7,17 +7,21 @@ public class BagUI : MonoBehaviour
 {
     public static TabSwitchEvent onTabSwitch = new TabSwitchEvent();
     [SerializeField] private RectTransform itemContainer;
+    public enum Tabs
+    {
+        KeyItems = 0,
+        HealItems = 1,
+        OtherItems = 2
+    }
 
     private void OnEnable()
     {
         onTabSwitch.Invoke(Tabs.HealItems, itemContainer);
     }
 
-    public enum Tabs
+    public void CloseBag()
     {
-        KeyItems = 0,
-        HealItems = 1,
-        OtherItems = 2
+        gameObject.SetActive(false);
     }
 
     public void DisplayTab(Tabs tabToDisplay)
