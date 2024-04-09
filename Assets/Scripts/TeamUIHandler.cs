@@ -21,11 +21,14 @@ public class TeamUIHandler : MonoBehaviour
     [SerializeField] private Button retireMonsterBtn;
     [SerializeField] private Button storeMonsterBtn;
     [SerializeField] private Button switchMonsterBtn;
+    [SerializeField] private Button useItemBtn;
     [HideInInspector] public List<MonsterScriptableObject> selectedMonsters = new List<MonsterScriptableObject>();
     [SerializeField] private Transform tutoSection;
     [SerializeField] private TMP_Text organizeHelperText;
     [SerializeField] private NecronomiconHandler necronomiconHandler;
     [SerializeField] private Transform playerActions;
+    [HideInInspector] public bool isHealItemBeingUsed;
+    [HideInInspector] public HealItemScriptableObject healItem;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -130,70 +133,94 @@ public class TeamUIHandler : MonoBehaviour
 
     public void HandleActiveActionButtons()
     {
-        storeMonsterBtn.interactable = false;
-        retireMonsterBtn.interactable = false;
-        switchMonsterBtn.interactable = false;
-        tutoSection.gameObject.SetActive(false);
-
-        if (selectedMonsters.Count != 0)
+        if (!isHealItemBeingUsed)
         {
-            int monsterSelectedInTeam = 0;
-            int monsterSelectedInNecro = 0;
-            int deltaMissingMonsters = GameManager.Instance.maxMonsterInTeam - GameManager.Instance.playerTeam.Count;
+            storeMonsterBtn.interactable = false;
+            retireMonsterBtn.interactable = false;
+            switchMonsterBtn.interactable = false;
+            tutoSection.gameObject.SetActive(false);
 
-            foreach (var currentMonster in selectedMonsters)
+            if (selectedMonsters.Count != 0)
             {
-                if (currentMonster.isInNecronomicon)
+                int monsterSelectedInTeam = 0;
+                int monsterSelectedInNecro = 0;
+                int deltaMissingMonsters = GameManager.Instance.maxMonsterInTeam - GameManager.Instance.playerTeam.Count;
+
+                foreach (var currentMonster in selectedMonsters)
                 {
-                    monsterSelectedInNecro++;
+                    if (currentMonster.isInNecronomicon)
+                    {
+                        monsterSelectedInNecro++;
+                    }
+                    else
+                    {
+                        monsterSelectedInTeam++;
+                    }
+                }
+
+                if (monsterSelectedInTeam > 0 && monsterSelectedInNecro == 0)
+                {
+                    if (monsterSelectedInTeam == GameManager.Instance.maxMonsterInTeam - deltaMissingMonsters)
+                    {
+                        tutoSection.gameObject.SetActive(true);
+                        organizeHelperText.text = "You can't have an empty team !";
+                    }
+                    else
+                    {
+                        storeMonsterBtn.interactable = true;
+                    }
+                }
+                else if (monsterSelectedInTeam == 0 && monsterSelectedInNecro > 0)
+                {
+                    if (monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
+                    {
+                        tutoSection.gameObject.SetActive(true);
+                        organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
+                    }
+                    else if (monsterSelectedInNecro > deltaMissingMonsters)
+                    {
+                        tutoSection.gameObject.SetActive(true);
+                        organizeHelperText.text = "Too few remaining slots in your team !";
+                    }
+                    else
+                    {
+                        retireMonsterBtn.interactable = true;
+                    }
                 }
                 else
                 {
-                    monsterSelectedInTeam++;
+                    if (monsterSelectedInNecro > deltaMissingMonsters + monsterSelectedInTeam ||
+                        monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
+                    {
+                        tutoSection.gameObject.SetActive(true);
+                        organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
+                    }
+                    else
+                    {
+                        switchMonsterBtn.interactable = true;
+                    }
                 }
             }
-
-            if (monsterSelectedInTeam > 0 && monsterSelectedInNecro == 0)
+        }
+        else
+        {
+            int countSelectedMonsters = selectedMonsters.Count;
+            if (countSelectedMonsters > healItem.maxNumberOfMonstersToHeal)
             {
-                if (monsterSelectedInTeam == GameManager.Instance.maxMonsterInTeam - deltaMissingMonsters)
-                {
-                    tutoSection.gameObject.SetActive(true);
-                    organizeHelperText.text = "You can't have an empty team !";
-                }
-                else
-                {
-                    storeMonsterBtn.interactable = true;
-                }
+                useItemBtn.interactable = false;
+                tutoSection.gameObject.SetActive(true);
+                organizeHelperText.text = "Too many monsters selected !";
             }
-            else if (monsterSelectedInTeam == 0 && monsterSelectedInNecro > 0)
+            else if (countSelectedMonsters > 0 && countSelectedMonsters <= healItem.maxNumberOfMonstersToHeal)
             {
-                if (monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
-                {
-                    tutoSection.gameObject.SetActive(true);
-                    organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
-                }
-                else if (monsterSelectedInNecro > deltaMissingMonsters)
-                {
-                    tutoSection.gameObject.SetActive(true);
-                    organizeHelperText.text = "Too few remaining slots in your team !";
-                }
-                else
-                {
-                    retireMonsterBtn.interactable = true;
-                }
+                useItemBtn.interactable = true;
+                tutoSection.gameObject.SetActive(false);
             }
             else
             {
-                if (monsterSelectedInNecro > deltaMissingMonsters + monsterSelectedInTeam || 
-                    monsterSelectedInNecro > GameManager.Instance.maxMonsterInTeam)
-                {
-                    tutoSection.gameObject.SetActive(true);
-                    organizeHelperText.text = "Too many monsters selected in the Necronomicon !";
-                }
-                else
-                {
-                    switchMonsterBtn.interactable = true;
-                }
+                useItemBtn.interactable = false;
+                tutoSection.gameObject.SetActive(true);
+                organizeHelperText.text = $"Choose {healItem.maxNumberOfMonstersToHeal} monster(s) to heal";
             }
         }
     }
@@ -261,5 +288,26 @@ public class TeamUIHandler : MonoBehaviour
             DeactivateNecro();
         }
         gameObject.SetActive(false);
+
+        // ATTENTION AUX ITEMS DE SOIN MICHEL
+    }
+
+    public void HealUIInitialization(HealItemScriptableObject item)
+    {
+        isHealItemBeingUsed = true;
+        healItem = item;
+        activateNecroBtn.gameObject.SetActive(false);
+        useItemBtn.gameObject.SetActive(true);
+        useItemBtn.interactable = false;
+        tutoSection.gameObject.SetActive(true);
+        organizeHelperText.text = $"Choose {healItem.maxNumberOfMonstersToHeal} monster(s) to heal";
+    }
+
+    public void UseHealItem()
+    {
+        foreach (MonsterScriptableObject monster in selectedMonsters)
+        {
+            monster.Heal(healItem.healAmount);
+        }
     }
 }

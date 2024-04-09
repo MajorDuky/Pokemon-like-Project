@@ -19,3 +19,4 @@ MonoBehaviour:
   isInBag: 0
   isUsable: 1
   healAmount: 20
+  maxNumberOfMonstersToHeal: 1

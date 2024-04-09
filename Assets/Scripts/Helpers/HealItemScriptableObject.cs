@@ -4,4 +4,5 @@ using UnityEngine;
 public class HealItemScriptableObject : PickupableItemScriptableObject
 {
     public float healAmount;
+    public int maxNumberOfMonstersToHeal;
 }
