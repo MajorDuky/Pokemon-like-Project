@@ -6,16 +6,12 @@ public class UIManager : MonoBehaviour
 {
     private void OnEnable()
     {
-        ItemDisplay.onUse.AddListener(ResponseToItemUsed);
+        ItemDisplay.healItemUsed.AddListener(ResponseToItemUsed);
     }
     
-    private void ResponseToItemUsed(PickupableItemScriptableObject item)
+    private void ResponseToItemUsed(HealItemScriptableObject item)
     {
-        HealItemScriptableObject healItem = item as HealItemScriptableObject;
-        if (healItem)
-        {
-            GameManager.Instance.teamUIHandler.gameObject.SetActive(true);
-            GameManager.Instance.teamUIHandler.HealUIInitialization(healItem);
-        }
+        GameManager.Instance.teamUIHandler.gameObject.SetActive(true);
+        GameManager.Instance.teamUIHandler.HealUIInitialization(item);
     }
 }

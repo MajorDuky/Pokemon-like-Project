@@ -13,6 +13,7 @@ public class ItemDisplay : MonoBehaviour
     public Image imageComponent;
     public PickupableItemScriptableObject itemData;
     public static UseItemEvent onUse = new UseItemEvent();
+    public static HealItemBeingUsedEvent healItemUsed = new HealItemBeingUsedEvent();
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +38,20 @@ public class ItemDisplay : MonoBehaviour
 
     public void UseItem()
     {
-        onUse.Invoke(itemData);
+        HealItemScriptableObject healItem = itemData as HealItemScriptableObject;
+        if (healItem)
+        {
+            healItemUsed.Invoke(healItem);
+        }
     }
 }
 
 public class UseItemEvent : UnityEvent<PickupableItemScriptableObject>
+{
+
+}
+
+public class HealItemBeingUsedEvent : UnityEvent<HealItemScriptableObject>
 {
 
 }

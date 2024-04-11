@@ -21,7 +21,6 @@ public class TeamUIHandler : MonoBehaviour
     [SerializeField] private Button retireMonsterBtn;
     [SerializeField] private Button storeMonsterBtn;
     [SerializeField] private Button switchMonsterBtn;
-    [SerializeField] private Button useItemBtn;
     [HideInInspector] public List<MonsterScriptableObject> selectedMonsters = new List<MonsterScriptableObject>();
     [SerializeField] private Transform tutoSection;
     [SerializeField] private TMP_Text organizeHelperText;
@@ -29,6 +28,7 @@ public class TeamUIHandler : MonoBehaviour
     [SerializeField] private Transform playerActions;
     [HideInInspector] public bool isHealItemBeingUsed;
     [HideInInspector] public HealItemScriptableObject healItem;
+    [SerializeField] private HealUIManager healUiManager;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -207,18 +207,18 @@ public class TeamUIHandler : MonoBehaviour
             int countSelectedMonsters = selectedMonsters.Count;
             if (countSelectedMonsters > healItem.maxNumberOfMonstersToHeal)
             {
-                useItemBtn.interactable = false;
+                healUiManager.useHealBtn.interactable = false;
                 tutoSection.gameObject.SetActive(true);
                 organizeHelperText.text = "Too many monsters selected !";
             }
             else if (countSelectedMonsters > 0 && countSelectedMonsters <= healItem.maxNumberOfMonstersToHeal)
             {
-                useItemBtn.interactable = true;
+                healUiManager.useHealBtn.interactable = true;
                 tutoSection.gameObject.SetActive(false);
             }
             else
             {
-                useItemBtn.interactable = false;
+                healUiManager.useHealBtn.interactable = false;
                 tutoSection.gameObject.SetActive(true);
                 organizeHelperText.text = $"Choose {healItem.maxNumberOfMonstersToHeal} monster(s) to heal";
             }
@@ -287,18 +287,22 @@ public class TeamUIHandler : MonoBehaviour
         {
             DeactivateNecro();
         }
+        if (healUiManager.gameObject.activeInHierarchy)
+        {
+            healUiManager.gameObject.SetActive(false);
+        }
         gameObject.SetActive(false);
-
-        // ATTENTION AUX ITEMS DE SOIN MICHEL
     }
 
     public void HealUIInitialization(HealItemScriptableObject item)
     {
+        healUiManager.gameObject.SetActive(true);
+        healUiManager.InitializeHealUI(item);
         isHealItemBeingUsed = true;
         healItem = item;
         activateNecroBtn.gameObject.SetActive(false);
-        useItemBtn.gameObject.SetActive(true);
-        useItemBtn.interactable = false;
+        healUiManager.useHealBtn.gameObject.SetActive(true);
+        healUiManager.useHealBtn.interactable = false;
         tutoSection.gameObject.SetActive(true);
         organizeHelperText.text = $"Choose {healItem.maxNumberOfMonstersToHeal} monster(s) to heal";
     }
@@ -309,5 +313,8 @@ public class TeamUIHandler : MonoBehaviour
         {
             monster.Heal(healItem.healAmount);
         }
+        ActualizePlayerTeam();
+        ItemDisplay.onUse.Invoke(healItem);
+        selectedMonsters.Clear();
     }
 }

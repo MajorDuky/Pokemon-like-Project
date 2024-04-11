@@ -2,17 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BagHandler : MonoBehaviour
 {
     public List<PickupableItemScriptableObject> healItemList = new List<PickupableItemScriptableObject>();
     [SerializeField] private ItemDisplay itemDisplayPrefab;
     [SerializeField] private ItemDisplay usableItemDisplayPrefab;
+    public static UIChangeEvent uiModifNeeded = new UIChangeEvent();
 
     private void Awake()
     {
         PickupableItem.onPickup.AddListener(AddItemToBag);
         BagUI.onTabSwitch.AddListener(FillBagTab);
+        ItemDisplay.onUse.AddListener(UseItem);
     }
 
     private void AddItemToBag(PickupableItemScriptableObject item)
@@ -71,4 +74,30 @@ public class BagHandler : MonoBehaviour
             }
         }
     }
+
+    private void UseItem(PickupableItemScriptableObject item)
+    {
+        item.itemQuantity--;
+        if (item.itemQuantity == 0)
+        {
+            RemoveItemFromBag(item);
+        }
+        uiModifNeeded.Invoke(item);
+    }
+
+    public void RemoveItemFromBag(PickupableItemScriptableObject item)
+    {
+        item.isInBag = false;
+        HealItemScriptableObject healItem = item as HealItemScriptableObject;
+        if (healItem)
+        {
+            healItemList.Remove(healItem);
+        }
+        // Penser aux autres types d'item
+    }
+}
+
+public class UIChangeEvent : UnityEvent<PickupableItemScriptableObject>
+{
+
 }
