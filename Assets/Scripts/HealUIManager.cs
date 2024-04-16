@@ -30,8 +30,11 @@ public class HealUIManager : MonoBehaviour
 
     public void ActualizeHealUIAfterItemUsed(PickupableItemScriptableObject item)
     {
-        Debug.Log("coucou");
         healItemNameBtn.text = $"USE {item.itemName}";
         healItemQuantity.text = $"X{item.itemQuantity}";
+        if (item.itemQuantity == 0)
+        {
+            gameObject.GetComponentInParent<TeamUIHandler>().CloseTeamUI();
+        }
     }
 }

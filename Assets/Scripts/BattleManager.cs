@@ -111,7 +111,6 @@ public class BattleManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("FAIL");
                         ui.UpdateBattleText("You failed to submit the monster !");
                     }
                 }
@@ -203,15 +202,12 @@ public class BattleManager : MonoBehaviour
         {
             case BattleChoice.Attack:
                 capacityToLaunch = defaultCapacity;
-                Debug.Log(caster + " " + capacityToLaunch);
                 break;
             case BattleChoice.Capacity:
                 capacityToLaunch = caster.isAlly ? allyCapacity : enemyCapacity;
-                Debug.Log(caster + " " + capacityToLaunch);
                 break;
             default:
                 capacityToLaunch = defaultCapacity;
-                Debug.Log(caster + " " + capacityToLaunch);
                 break;
         }
         foreach (var type in receiver.weaknessesList)

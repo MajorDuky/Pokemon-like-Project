@@ -10,6 +10,8 @@ public class BagHandler : MonoBehaviour
     [SerializeField] private ItemDisplay itemDisplayPrefab;
     [SerializeField] private ItemDisplay usableItemDisplayPrefab;
     public static UIChangeEvent uiModifNeeded = new UIChangeEvent();
+    private BagUI.Tabs currentlyDisplayedTab;
+    private RectTransform contentContainer;
 
     private void Awake()
     {
@@ -35,6 +37,10 @@ public class BagHandler : MonoBehaviour
 
     private void FillBagTab(BagUI.Tabs tabsToDisplay, RectTransform itemContainer)
     {
+        if (contentContainer == null)
+        {
+            contentContainer = itemContainer;
+        }
         
         if (itemContainer.childCount > 0)
         {
@@ -47,11 +53,14 @@ public class BagHandler : MonoBehaviour
         switch (tabsToDisplay)
         {
             case BagUI.Tabs.KeyItems:
+                currentlyDisplayedTab = BagUI.Tabs.KeyItems;
                 break;
             case BagUI.Tabs.HealItems:
+                currentlyDisplayedTab = BagUI.Tabs.HealItems;
                 GenerateItemList(healItemList, itemContainer);
                 break;
             case BagUI.Tabs.OtherItems:
+                currentlyDisplayedTab = BagUI.Tabs.OtherItems;
                 break;
             default:
                 break;
@@ -83,6 +92,7 @@ public class BagHandler : MonoBehaviour
             RemoveItemFromBag(item);
         }
         uiModifNeeded.Invoke(item);
+        FillBagTab(currentlyDisplayedTab, contentContainer);
     }
 
     public void RemoveItemFromBag(PickupableItemScriptableObject item)
