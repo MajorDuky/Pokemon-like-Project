@@ -5,6 +5,9 @@ using UnityEngine;
 public class MonsterScriptableObject : ScriptableObject
 {
     public string monsterName;
+    public string monsterDescription;
+    public string spawnAreaName;
+    // Localisation du monstre sur la carte.
     public int level;
     public float currentXp;
     public float xpToLevelUp;
@@ -26,6 +29,7 @@ public class MonsterScriptableObject : ScriptableObject
     public bool isAlive;
     public bool isAlly;
     public bool isInNecronomicon;
+    public bool hasBeenEncountered;
     public float submissionRate;
 
     public void GainXp(float amountToAdd)
@@ -93,5 +97,11 @@ public class MonsterScriptableObject : ScriptableObject
     {
         isAlive = true;
         health = maxHealth;
+    }
+
+    public void RegisterMonster(string areaName)
+    {
+        hasBeenEncountered = true;
+        spawnAreaName = areaName;
     }
 }

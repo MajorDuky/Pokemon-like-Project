@@ -23,6 +23,10 @@ public class EnemyBattleBehavior : MonoBehaviour
         foreach (var monster in monsters)
         {
             enemyTeam.Add(monster);
+            if(!monster.hasBeenEncountered)
+            {
+                monster.RegisterMonster("Untraceable");
+            }
         }
 
         if (enemyTeam.Count == 1)

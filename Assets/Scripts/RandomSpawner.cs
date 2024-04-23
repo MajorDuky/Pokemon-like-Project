@@ -6,7 +6,7 @@ using UnityEngine;
 public class RandomSpawner : MonoBehaviour
 {
     public List<MonsterScriptableObject> encounterableMonsters;
-    [SerializeField] private string areaName;
+    public string areaName;
     [SerializeField] private int areaLvl;
     [SerializeField] private float probabilityOfEncounter;
     [SerializeField] private float probabilityCalcRate;
@@ -63,6 +63,12 @@ public class RandomSpawner : MonoBehaviour
                     }
                     List<MonsterScriptableObject> monsterToFight = new List<MonsterScriptableObject>();
                     monsterToFight.Add(randomPickedMonster);
+
+                    if(!randomPickedMonster.hasBeenEncountered)
+                    {
+                        randomPickedMonster.RegisterMonster(areaName);
+                    }
+                    
                     dangerGauge.gameObject.SetActive(false);
                     GameManager.Instance.StartBattle(monsterToFight, true);
                     monsterToFight.Clear();
