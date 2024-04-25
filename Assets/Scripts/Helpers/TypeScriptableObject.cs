@@ -7,4 +7,5 @@ public class TypeScriptableObject : ScriptableObject
 {
     public string typeName;
     public int idType;
+    public Sprite typeSprite;
 }

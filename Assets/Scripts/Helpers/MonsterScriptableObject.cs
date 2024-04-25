@@ -28,6 +28,7 @@ public class MonsterScriptableObject : ScriptableObject
     public float speed;
     public bool isAlive;
     public bool isAlly;
+    public bool isNPCMonster;
     public bool isInNecronomicon;
     public bool hasBeenEncountered;
     public float submissionRate;
