@@ -11,6 +11,7 @@ public class DexSlotManager : MonoBehaviour
     {
         MonsterReportUI.onInitialization.AddListener(InitializeDexList);
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class DexSlotManager : MonoBehaviour
         {
             DexSlotHandler dexSlotClone = Instantiate(dexSlot, container);
             dexSlotClone.monster = monster;
+            dexSlotClone.AdjustDisplayDexSlot();
         }
     }
 }

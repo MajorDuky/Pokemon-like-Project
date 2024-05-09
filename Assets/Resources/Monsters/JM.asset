@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: JM
   m_EditorClassIdentifier: 
   monsterName: FielonMan
+  monsterDescription: Fielon man le navet
+  spawnAreaName: Dans mon cul
   level: 11
   currentXp: 36.4
   xpToLevelUp: 110
@@ -37,5 +39,7 @@ MonoBehaviour:
   speed: 50
   isAlive: 1
   isAlly: 1
+  isNPCMonster: 0
   isInNecronomicon: 0
+  hasBeenEncountered: 1
   submissionRate: 0

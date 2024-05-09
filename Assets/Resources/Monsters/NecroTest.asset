@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: NecroTest
   m_EditorClassIdentifier: 
   monsterName: Ayla
+  monsterDescription: Juste la best en fait
+  spawnAreaName: Dans mon cul
   level: 99
   currentXp: 9999
   xpToLevelUp: 10000
@@ -35,5 +37,7 @@ MonoBehaviour:
   speed: 100
   isAlive: 1
   isAlly: 1
+  isNPCMonster: 0
   isInNecronomicon: 1
+  hasBeenEncountered: 1
   submissionRate: 0

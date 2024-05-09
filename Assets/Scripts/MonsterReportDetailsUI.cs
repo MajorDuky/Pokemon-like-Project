@@ -23,32 +23,32 @@ public class MonsterReportDetailsUI : MonoBehaviour
         sprite.sprite = monster.frontSprite;
         foreach (TypeScriptableObject type in monster.typesList)
         {
-            GameObject newType = new GameObject();
-            Image newTypeSprite = newType.AddComponent<Image>();
-            newTypeSprite.sprite = type.typeSprite;
+            GameObject newType = GenerateNewTypeIconObject(type);
             newType.transform.parent = typesSpriteContainer.transform;
         }
         foreach (TypeScriptableObject type in monster.strengthsList)
         {
-            GameObject newType = new GameObject();
-            Image newTypeSprite = newType.AddComponent<Image>();
-            newTypeSprite.sprite = type.typeSprite;
+            GameObject newType = GenerateNewTypeIconObject(type);
             newType.transform.parent = strongTypesSpritesContainer.transform;
         }
         foreach (TypeScriptableObject type in monster.weaknessesList)
         {
-            GameObject newType = new GameObject();
-            Image newTypeSprite = newType.AddComponent<Image>();
-            newTypeSprite.sprite = type.typeSprite;
+            GameObject newType = GenerateNewTypeIconObject(type);
             newType.transform.parent = weakTypesSpritesContainer.transform;
         }
         foreach (TypeScriptableObject type in monster.ignoreDmgList)
         {
-            GameObject newType = new GameObject();
-            Image newTypeSprite = newType.AddComponent<Image>();
-            newTypeSprite.sprite = type.typeSprite;
+            GameObject newType = GenerateNewTypeIconObject(type);
             newType.transform.parent = ignoreTypesSpritesContainer.transform;
         }
+    }
+
+    private GameObject GenerateNewTypeIconObject(TypeScriptableObject type)
+    {
+        GameObject newType = new GameObject();
+        Image newTypeSprite = newType.AddComponent<Image>();
+        newTypeSprite.sprite = type.typeSprite;
+        return newType;
     }
 
     public void CloseDetails()

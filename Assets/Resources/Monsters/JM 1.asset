@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: JM 1
   m_EditorClassIdentifier: 
   monsterName: FielonMan
+  monsterDescription: "Fi\xE9lon man the saint"
+  spawnAreaName: 
   level: 10
   currentXp: 10
   xpToLevelUp: 100
@@ -37,4 +39,7 @@ MonoBehaviour:
   speed: 50
   isAlive: 1
   isAlly: 0
+  isNPCMonster: 1
+  isInNecronomicon: 0
+  hasBeenEncountered: 0
   submissionRate: 0

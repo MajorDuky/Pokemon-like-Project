@@ -16,7 +16,15 @@ public class DexSlotHandler : MonoBehaviour, IPointerClickHandler
         if (monster.hasBeenEncountered && monster.isAlly
             || monster.hasBeenEncountered && monster.isNPCMonster)
         {
-            // Full infos
+            RevealFullInformationsOnMonster();
+        }
+        else if (monster.hasBeenEncountered)
+        {
+            RevealPartialInformationsOnMonster();
+        }
+        else
+        {
+            RevealNoInformationsOnMonster();
         }
     }
 
@@ -33,8 +41,20 @@ public class DexSlotHandler : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void RevealPartialInformationsOnMonster()
+    {
+        monsterName.text = monster.monsterName;
+        // monsterSubmitStatusSprite.sprite = Sprite monstre rencontré (oeil ouvert)
+    }
+
+    public void RevealNoInformationsOnMonster()
+    {
+        monsterName.text = "-----------";
+        // monsterSubmitStatusSprite.sprite = Sprite monstre non rencontré (oeil fermé)
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        MonsterReportUI.onClickMonsterDetails.Invoke(monster);
+        MonsterReportUI.onClickMonsterDetails.Invoke(monster); // Réfléchir à comment transmettre état de découverte du monster
     }
 }
