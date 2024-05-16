@@ -14,6 +14,28 @@ public class MonsterReportDetailsUI : MonoBehaviour
     [SerializeField] private RectTransform strongTypesSpritesContainer;
     [SerializeField] private RectTransform ignoreTypesSpritesContainer;
 
+    private void OnEnable()
+    {
+        if(typesSpriteContainer.childCount > 0)
+        {
+            EmptyIconContainer(typesSpriteContainer);
+        }
+
+        if(weakTypesSpritesContainer.childCount > 0)
+        {
+            EmptyIconContainer(weakTypesSpritesContainer);
+        }
+
+        if(strongTypesSpritesContainer.childCount > 0)
+        {
+            EmptyIconContainer(strongTypesSpritesContainer);
+        }
+
+        if(ignoreTypesSpritesContainer.childCount > 0)
+        {
+            EmptyIconContainer(ignoreTypesSpritesContainer);
+        }
+    }
 
     public void FillDetails(MonsterScriptableObject monster)
     {
@@ -24,22 +46,22 @@ public class MonsterReportDetailsUI : MonoBehaviour
         foreach (TypeScriptableObject type in monster.typesList)
         {
             GameObject newType = GenerateNewTypeIconObject(type);
-            newType.transform.parent = typesSpriteContainer.transform;
+            newType.transform.SetParent(typesSpriteContainer.transform);
         }
         foreach (TypeScriptableObject type in monster.strengthsList)
         {
             GameObject newType = GenerateNewTypeIconObject(type);
-            newType.transform.parent = strongTypesSpritesContainer.transform;
+            newType.transform.SetParent(strongTypesSpritesContainer.transform);
         }
         foreach (TypeScriptableObject type in monster.weaknessesList)
         {
             GameObject newType = GenerateNewTypeIconObject(type);
-            newType.transform.parent = weakTypesSpritesContainer.transform;
+            newType.transform.SetParent(weakTypesSpritesContainer.transform);
         }
         foreach (TypeScriptableObject type in monster.ignoreDmgList)
         {
             GameObject newType = GenerateNewTypeIconObject(type);
-            newType.transform.parent = ignoreTypesSpritesContainer.transform;
+            newType.transform.SetParent(ignoreTypesSpritesContainer.transform);
         }
     }
 
@@ -49,6 +71,14 @@ public class MonsterReportDetailsUI : MonoBehaviour
         Image newTypeSprite = newType.AddComponent<Image>();
         newTypeSprite.sprite = type.typeSprite;
         return newType;
+    }
+
+    private void EmptyIconContainer(RectTransform containerToEmpty)
+    {
+        for (int containerChild = 0; containerChild < containerToEmpty.childCount; containerChild++)
+        {
+            Destroy(containerToEmpty.GetChild(containerChild).gameObject);
+        }
     }
 
     public void CloseDetails()
