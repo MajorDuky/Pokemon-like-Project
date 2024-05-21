@@ -267,8 +267,8 @@ MonoBehaviour:
   monsterName: {fileID: 879770546055229255}
   monsterSubmitStatusSprite: {fileID: 6581804600376596932}
   monster: {fileID: 0}
-  maxInflatedScaleVector: {x: 1.075, y: 1.1, z: 1}
-  inflatingRateVector: {x: 0.005, y: 0.005, z: 1}
+  maxInflatedScaleVector: {x: 1.05, y: 1.075, z: 1}
+  inflatingRateVector: {x: 0.0017, y: 0.0017, z: 1}
 --- !u!1 &8780668800763035351
 GameObject:
   m_ObjectHideFlags: 0

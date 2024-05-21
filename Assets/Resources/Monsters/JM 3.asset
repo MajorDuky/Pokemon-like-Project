@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcf19229191b56419f24c255f09b90f, type: 3}
   m_Name: JM 3
   m_EditorClassIdentifier: 
-  monsterName: FielonMan
+  monsterName: Cunegonde
   monsterDescription: Fielon man the hatred
-  spawnAreaName: 
+  spawnAreaName: Untraceable
   level: 10
   currentXp: 10
   xpToLevelUp: 100

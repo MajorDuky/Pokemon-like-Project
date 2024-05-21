@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterName: Layfon
   monsterDescription: He's a smooth criminal
-  spawnAreaName: 
+  spawnAreaName: UnNom
   level: 10
   currentXp: 0
   xpToLevelUp: 235.79482

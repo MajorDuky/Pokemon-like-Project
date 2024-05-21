@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcf19229191b56419f24c255f09b90f, type: 3}
   m_Name: JM
   m_EditorClassIdentifier: 
-  monsterName: FielonMan
+  monsterName: Godfroid
   monsterDescription: Fielon man le navet
   spawnAreaName: Dans mon cul
   level: 11
@@ -28,7 +28,7 @@ MonoBehaviour:
   weaknessesList:
   - {fileID: 11400000, guid: e8edf01bdd4b7bb44a9500a79968927b, type: 2}
   ignoreDmgList: []
-  health: 180
+  health: 120
   maxHealth: 220
   levelUpHealthMultiplier: 1.1
   spiritPower: 165

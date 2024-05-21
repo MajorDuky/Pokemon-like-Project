@@ -290,6 +290,7 @@ public class TeamUIHandler : MonoBehaviour
         if (healUiManager.gameObject.activeInHierarchy)
         {
             healUiManager.gameObject.SetActive(false);
+            isHealItemBeingUsed = false;
         }
         gameObject.SetActive(false);
     }

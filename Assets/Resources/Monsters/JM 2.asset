@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcf19229191b56419f24c255f09b90f, type: 3}
   m_Name: JM 2
   m_EditorClassIdentifier: 
-  monsterName: FielonMan
+  monsterName: Jacqueline
   monsterDescription: "Fielon man the mis\xE9reux"
   spawnAreaName: 
   level: 10
@@ -28,7 +28,7 @@ MonoBehaviour:
   weaknessesList:
   - {fileID: 11400000, guid: e8edf01bdd4b7bb44a9500a79968927b, type: 2}
   ignoreDmgList: []
-  health: 20
+  health: 250
   maxHealth: 250
   levelUpHealthMultiplier: 1.1
   spiritPower: 200

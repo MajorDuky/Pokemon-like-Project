@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -67,6 +68,7 @@ public class RandomSpawner : MonoBehaviour
                     if(!randomPickedMonster.hasBeenEncountered)
                     {
                         randomPickedMonster.RegisterMonster(areaName);
+                        DexSlotManager.onMonsterEncounter.Invoke(randomPickedMonster);
                     }
                     
                     dangerGauge.gameObject.SetActive(false);

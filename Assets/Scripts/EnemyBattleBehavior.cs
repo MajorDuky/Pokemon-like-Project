@@ -26,6 +26,7 @@ public class EnemyBattleBehavior : MonoBehaviour
             if(!monster.hasBeenEncountered)
             {
                 monster.RegisterMonster("Untraceable");
+                DexSlotManager.onMonsterEncounter.Invoke(monster);
             }
         }
 
