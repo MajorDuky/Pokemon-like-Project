@@ -174,8 +174,14 @@ public class BattleManager : MonoBehaviour
             if (isSubmitted)
             {
                 isSuccess = true;
-                // PENSE A LA LIMITE DE MONSTRES DANS LA TEAM (ENVOYER DANS LA BANQUE QUAND PLEIN)
-                GameManager.Instance.playerTeam.Add(enemyMonster);
+                if (GameManager.Instance.playerTeam.Count == GameManager.Instance.maxMonsterInTeam)
+                {
+                    NecronomiconHandler.onSubmission.Invoke(enemyMonster);
+                }
+                else
+                {
+                    GameManager.Instance.playerTeam.Add(enemyMonster);
+                }
                 enemyMonster.isAlly = true;
                 GameManager.Instance.currentSpawner.encounterableMonsters.Remove(enemyMonster);
                 EndBattle();

@@ -94,17 +94,20 @@ public class MonsterDisplayHandler : MonoBehaviour
 
     public void HandleSelection()
     {
-        if (isSelected)
+        if (!GameManager.Instance.isInBattle)
         {
-            isSelected = false;
-            GameManager.Instance.teamUIHandler.selectedMonsters.Remove(monster);
-            DeselectItem();
-        }
-        else
-        {
-            isSelected = true;
-            GameManager.Instance.teamUIHandler.selectedMonsters.Add(monster);
-            SelectItem();
+            if (isSelected)
+            {
+                isSelected = false;
+                GameManager.Instance.teamUIHandler.selectedMonsters.Remove(monster);
+                DeselectItem();
+            }
+            else
+            {
+                isSelected = true;
+                GameManager.Instance.teamUIHandler.selectedMonsters.Add(monster);
+                SelectItem();
+            }
         }
     }
 

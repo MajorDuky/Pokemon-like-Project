@@ -70,7 +70,7 @@ public class TeamUIHandler : MonoBehaviour
             }
             if (!GameManager.Instance.isInBattle)
             {
-                clone.switchMonsterButton.enabled = false;
+                clone.switchMonsterButton.gameObject.SetActive(false);
             }
         }
     }

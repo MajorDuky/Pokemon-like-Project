@@ -17,6 +17,7 @@ public class MonsterReportUI : MonoBehaviour
     private void Awake()
     {
         onInitialization.Invoke(content);
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
