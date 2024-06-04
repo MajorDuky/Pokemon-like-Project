@@ -13,15 +13,15 @@ public class MonsterReportUI : MonoBehaviour
     [SerializeField] private MonsterReportDetailsUI monsterReportDetailsUI;
     [SerializeField] private Image bigDisplay;
     [SerializeField] Sprite notEncounteredMonsterSprite;
-
-    private void Awake()
-    {
-        onInitialization.Invoke(content);
-        gameObject.SetActive(false);
-    }
+    private bool isInitialized;
 
     private void OnEnable()
     {
+        if(!isInitialized)
+        {
+            isInitialized = true;
+            onInitialization.Invoke(content);
+        }
         onClickMonsterDetails.AddListener(DisplayMonsterDetails);
         onHoverSlot.AddListener(SwapMonsterSpriteDisplay);
     }

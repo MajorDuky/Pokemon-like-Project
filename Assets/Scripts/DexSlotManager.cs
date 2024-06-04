@@ -30,6 +30,7 @@ public class DexSlotManager : MonoBehaviour
 
     private void InitializeDexList(RectTransform container)
     {
+        Debug.Log("coucou");
         foreach (MonsterScriptableObject monster in fullDexList)
         {
             DexSlotHandler dexSlotClone = Instantiate(dexSlot, container);
