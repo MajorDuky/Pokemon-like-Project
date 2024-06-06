@@ -6,24 +6,17 @@ using TMPro;
 
 public class PlayerRecapUI : MonoBehaviour
 {
-    [SerializeField] private Image playerFullSprite;
-    [SerializeField] private Image investigatorBadgeSprite;
-    [SerializeField] private TMP_Text playerName;
-    [SerializeField] private TMP_Text money;
-    [SerializeField] private TMP_Text playTime;
-    [SerializeField] private TMP_Text badgeTitle;
-    [SerializeField] private TMP_Text badgeDescription;
+    public Image playerFullSprite;
+    public Image investigatorBadgeSprite;
+    public TMP_Text playerName;
+    public TMP_Text money;
+    public TMP_Text playTime;
+    public TMP_Text badgeTitle;
+    public TMP_Text badgeDescription;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        PlayerRecap.onPlayerRecapRequested.Invoke();
     }
 
     public void ClosePlayerRecap()
